@@ -69,7 +69,12 @@ client.on('message', msg => {
 
 const filter = (reaction, user) => {
     console.log("reacted");
-    return ['❌', '✅'].includes(reaction.emoji.name) && user.id === message.author.id;
+    if(reaction.emoji.name == '✅' || reaction.emoji.name == '❌'){
+        return true;
+    }
+    else{
+        return false;
+    }
 };
 
 async function reactionsWait(){
