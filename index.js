@@ -30,13 +30,10 @@ const filter = (reaction, user) => {
 
 client.on('message', msg => {
   if (msg.content === '!clear') {
-    let id = "";
     let sent;
-    msg.reply({ embed }).then(sent => {
-        id = sent.id;
-        console.log(id);
+    msg.reply({ embed }).then(sentmsg => {
+        sent = sentmsg;
     });
-    sent = msg.channel.messages.fetch(id);
     sent.react('✅');
     sent.react('❌');
     const collector = msg.createReactionCollector(filter, { time: 15000 });
