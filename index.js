@@ -31,7 +31,7 @@ const filter = (reaction, user) => {
 client.on('message', msg => {
   if (msg.content === '!clear') {
     let sent;
-    msg.reply({ embed }).then(sentmsg => {
+    msg.channel.send({ embed }).then(sentmsg => {
         sent = sentmsg;
     });
     sent.react('✅');
