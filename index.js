@@ -10,7 +10,7 @@ app.listen(PORT, () => {
 
 const embed = {
     "title": "Are you sure you want to clear the channel?",
-    "description": "React yes (check) or no (x)",
+    "description": "React yes (✅) or no (❌)",
     "color": 62463,
     "timestamp": "2020-10-06T21:23:50.909Z",
     "footer": {
@@ -33,6 +33,9 @@ client.on('ready', () => {
   console.log(`Logged in as ${client.user.tag}!`);
 });
 
+let lastMessage;
+let sentMessage;
+
 client.on('message', msg => {
   if (msg.content === '!clear') {
     let sent;
@@ -41,11 +44,9 @@ client.on('message', msg => {
         sent.react('✅')
             .then(() => sent.react('❌'))
             .catch(() => console.log("Failed to react"));
-        const filter = (reaction, user) => {
-            console.log("reacted");
-            return ['❌', '✅'].includes(reaction.emoji.name);
-        };
-        const collector = msg.createReactionCollector(filter, { time: 15000 });
+        lastMessage = msg;
+        sentMessage = sent;
+        /*const collector = msg.createReactionCollector(filter, { time: 15000 });
         collector.on('collect', (reaction, user) => {
             console.log(`Collected ${reaction.emoji.name} from ${user.tag}`);
             if(reaction.emoji.name === '✅'){
@@ -59,10 +60,30 @@ client.on('message', msg => {
             console.log(`Collected ${collected.size} items`);
             msg.delete();
             sent.delete();
-        });
+        });*/
     });
   }
 });
 
+const filter = (reaction, user) => {
+    console.log("reacted");
+    return ['❌', '✅'].includes(reaction.emoji.name);
+};
+
+async function reactionsWait(){
+    lastMessage.awaitReactions(filter, { max:1, time:15000, errors: ['time'] })
+        .then(collected => {
+            const reaction = collected.first();
+            if(reaction.emoji.name === '✅'){
+                clear100(lastMessage, sentMessage);
+            }
+            else{
+                clear(lastMessage, sentMessage);
+            }
+        })
+        .catch(collected => {
+            lastMessage.reply('You reacted with something other than ✅ or ❌')
+        })
+}
 
 client.login(process.env.token);
