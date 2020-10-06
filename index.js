@@ -72,7 +72,7 @@ client.on('message', msg => {
 
 const filter = (reaction, user) => {
     console.log("reacted");
-    if(reaction.emoji.name == '✅' || reaction.emoji.name == '❌'){
+    if((reaction.emoji.name == '✅' || reaction.emoji.name == '❌') && user.id == lastMessage.author.id){
         return true;
     }
     else{
@@ -116,6 +116,7 @@ function reactionsWait(){
     let collector = sentMessage.createReactionCollector(filter, { time: 15000 });
     collector.on('collect', (reaction, collector) => {
         console.log('got a reaction');
+        collector.end();
     });
     collector.on('end', collected => {
         console.log(`collected ${collected.size} reactions`);
