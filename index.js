@@ -42,8 +42,8 @@ client.on('message', msg => {
             .then(() => sent.react('❌'))
             .catch(() => console.log("Failed to react"));
         const filter = (reaction, user) => {
-            console.log(reaction.emoji.name);
-            return ['❌', '✅'].includes(reaction.emoji.name) && user.id === msg.author.id;
+            console.log("reacted");
+            return ['❌', '✅'].includes(reaction.emoji.name);
         };
         const collector = msg.createReactionCollector(filter, { time: 15000 });
         collector.on('collect', (reaction, user) => {
