@@ -8,6 +8,8 @@ app.listen(PORT, () => {
     console.log(`App is running on port ${ PORT }`);
 });
 
+var setting = 0;
+
 const embed = {
     "title": "Are you sure you want to clear the channel?",
     "description": "React yes (✅) or no (❌)",
@@ -47,6 +49,7 @@ client.on('message', msg => {
             .catch(() => console.log("Failed to react"));
         lastMessage = msg;
         sentMessage = sent;
+        setting = 1;
         //reactionsWait();
         /*const collector = msg.createReactionCollector(filter, { time: 15000 });
         collector.on('collect', (reaction, user) => {
@@ -78,16 +81,20 @@ const filter = (reaction, user) => {
 };
 
 client.on('messageReactionAdd', (reaction, user) => {
-    let message = reaction.message, emoji = reaction.emoji;
-    if(emoji.name == '✅' && message.id == sentMessage.id){
-        clear100(lastMessage, sentMessage);
-    }
-    else if(emoji.name == '❌' && message.id == sentMessage.id){
-        clear(lastMessage, sentMessage);
+    if(setting){
+        let message = reaction.message, emoji = reaction.emoji;
+        if(emoji.name == '✅' && message.id == sentMessage.id){
+            clear100(lastMessage, sentMessage);
+            setting = 0;
+        }
+        else if(emoji.name == '❌' && message.id == sentMessage.id){
+            clear(lastMessage, sentMessage);
+            setting = 0;
+        }
     }
 })
 
-async function reactionsWait(){
+/*async function reactionsWait(){
     console.log('waiting');
     lastMessage.awaitReactions(filter, { max:1, time:15000, errors: ['time'] })
         .then(collected => {
@@ -105,6 +112,6 @@ async function reactionsWait(){
             lastMessage.delete();
             sentMessage.delete();
         })
-}
+}*/
 
 client.login(process.env.token);
