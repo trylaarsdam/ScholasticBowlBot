@@ -94,7 +94,7 @@ const filter = (reaction, user) => {
     }
 })*/
 
-function reactionsWait(){
+async function reactionsWait(){
     console.log('waiting');
     /*lastMessage.awaitReactions(filter, { max:2, time:15000, errors: ['time'] })
         .then(collected => {
