@@ -94,9 +94,9 @@ const filter = (reaction, user) => {
     }
 })*/
 
-async function reactionsWait(){
+function reactionsWait(){
     console.log('waiting');
-    lastMessage.awaitReactions(filter, { max:2, time:15000, errors: ['time'] })
+    /*lastMessage.awaitReactions(filter, { max:2, time:15000, errors: ['time'] })
         .then(collected => {
             console.log("Reacted!");
             const reaction = collected.first();
@@ -112,7 +112,14 @@ async function reactionsWait(){
             lastMessage.reply('You reacted with something other than ✅ or ❌, or did not react');
             lastMessage.delete();
             sentMessage.delete();
-        })
+        })*/
+    let collector = message.createReactionCollector(filter, { time: 15000 });
+    collector.on('collect', (reaction, collector) => {
+        console.log('got a reaction');
+    });
+    collector.on('end', collected => {
+        console.log(`collected ${collected.size} reactions`);
+    });
 }
 
 client.login(process.env.token);
