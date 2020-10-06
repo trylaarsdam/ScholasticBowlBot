@@ -33,7 +33,7 @@ client.on('message', msg => {
     let sent = msg.channel.send({ embed });
     msg.react('✅');
     msg.react('❌');
-    const collector = message.createReactionCollector(filter, { time: 15000 });
+    const collector = msg.createReactionCollector(filter, { time: 15000 });
     collector.on('collect', (reaction, user) => {
         console.log(`Collected ${reaction.emoji.name} from ${user.tag}`);
         if(reaction.emoji.name === '✅'){
