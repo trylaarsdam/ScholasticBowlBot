@@ -33,24 +33,24 @@ client.on('message', msg => {
     let sent;
     msg.channel.send({ embed }).then(sentmsg => {
         sent = sentmsg;
-    });
-    sent.react('✅');
-    sent.react('❌');
-    const collector = msg.createReactionCollector(filter, { time: 15000 });
-    collector.on('collect', (reaction, user) => {
-        console.log(`Collected ${reaction.emoji.name} from ${user.tag}`);
-        if(reaction.emoji.name === '✅'){
-            clear();
-        }
-        else{
+        sent.react('✅');
+        sent.react('❌');
+        const collector = msg.createReactionCollector(filter, { time: 15000 });
+        collector.on('collect', (reaction, user) => {
+            console.log(`Collected ${reaction.emoji.name} from ${user.tag}`);
+            if(reaction.emoji.name === '✅'){
+                clear();
+            }
+            else{
+                msg.delete();
+                sent.delete();
+            }
+        });
+        collector.on('end', collected => {
+            console.log(`Collected ${collected.size} items`);
             msg.delete();
             sent.delete();
-        }
-    });
-    collector.on('end', collected => {
-        console.log(`Collected ${collected.size} items`);
-        msg.delete();
-        sent.delete();
+        });
     });
   }
 });
