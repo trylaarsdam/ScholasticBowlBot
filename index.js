@@ -32,7 +32,7 @@ client.on('message', msg => {
   if (msg.content === '!clear') {
     let id = "";
     let sent;
-    msg.channel.send({ embed }).then(sent => {
+    msg.channel.reply({ embed }).then(sent => {
         id = sent.id;
         console.log(id);
     });
