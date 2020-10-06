@@ -1,5 +1,6 @@
 const Discord = require('discord.js');
 const client = new Discord.Client();
+require('dotenv').config()
 
 const embed = {
     "title": "Are you sure you want to clear the channel?",
@@ -28,4 +29,4 @@ client.on('message', msg => {
   }
 });
 
-client.login(System.getenv("token"));
+client.login(process.env.token);

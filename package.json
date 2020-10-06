@@ -19,6 +19,7 @@
   "homepage": "https://github.com/trylaarsdam/ScholasticBowlBot#readme",
   "dependencies": {
     "@discordjs/opus": "^0.3.2",
-    "discord.js": "^12.3.1"
+    "discord.js": "^12.3.1",
+    "dotenv": "^8.2.0"
   }
 }
