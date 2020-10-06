@@ -69,7 +69,7 @@ client.on('message', msg => {
 
 const filter = (reaction, user) => {
     console.log("reacted");
-    return ['❌', '✅'].includes(reaction.emoji.name);
+    return ['❌', '✅'].includes(reaction.emoji.name) && user.id === message.author.id;
 };
 
 async function reactionsWait(){
@@ -87,6 +87,8 @@ async function reactionsWait(){
         })
         .catch(collected => {
             lastMessage.reply('You reacted with something other than ✅ or ❌, or did not react');
+            lastMessage.delete();
+            sentMessage.delete();
         })
 }
 
