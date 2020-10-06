@@ -80,7 +80,7 @@ const filter = (reaction, user) => {
     }
 };
 
-client.on('messageReactionAdd', (reaction, user) => {
+/*client.on('messageReactionAdd', (reaction, user) => {
     if(setting){
         let message = reaction.message, emoji = reaction.emoji;
         if(emoji.name == '✅' && message.id == sentMessage.id){
@@ -92,9 +92,9 @@ client.on('messageReactionAdd', (reaction, user) => {
             setting = 0;
         }
     }
-})
+})*/
 
-/*async function reactionsWait(){
+async function reactionsWait(){
     console.log('waiting');
     lastMessage.awaitReactions(filter, { max:1, time:15000, errors: ['time'] })
         .then(collected => {
@@ -112,6 +112,6 @@ client.on('messageReactionAdd', (reaction, user) => {
             lastMessage.delete();
             sentMessage.delete();
         })
-}*/
+}
 
 client.login(process.env.token);
