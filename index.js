@@ -49,7 +49,7 @@ client.on('message', msg => {
             .catch(() => console.log("Failed to react"));
         lastMessage = msg;
         sentMessage = sent;
-        setting = 1;
+        reactionsWait();
         //reactionsWait();
         /*const collector = msg.createReactionCollector(filter, { time: 15000 });
         collector.on('collect', (reaction, user) => {
@@ -94,7 +94,7 @@ const filter = (reaction, user) => {
     }
 })*/
 
-async function reactionsWait(){
+function reactionsWait(){
     console.log('waiting');
     /*lastMessage.awaitReactions(filter, { max:2, time:15000, errors: ['time'] })
         .then(collected => {
