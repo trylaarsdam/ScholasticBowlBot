@@ -15,5 +15,9 @@
   "bugs": {
     "url": "https://github.com/trylaarsdam/ScholasticBowlBot/issues"
   },
-  "homepage": "https://github.com/trylaarsdam/ScholasticBowlBot#readme"
+  "homepage": "https://github.com/trylaarsdam/ScholasticBowlBot#readme",
+  "dependencies": {
+    "@discordjs/opus": "^0.3.2",
+    "discord.js": "^12.3.1"
+  }
 }
