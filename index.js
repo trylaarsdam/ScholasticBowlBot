@@ -96,7 +96,7 @@ const filter = (reaction, user) => {
 
 async function reactionsWait(){
     console.log('waiting');
-    lastMessage.awaitReactions(filter, { max:1, time:15000, errors: ['time'] })
+    lastMessage.awaitReactions(filter, { max:2, time:15000, errors: ['time'] })
         .then(collected => {
             console.log("Reacted!");
             const reaction = collected.first();
