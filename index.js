@@ -30,9 +30,15 @@ const filter = (reaction, user) => {
 
 client.on('message', msg => {
   if (msg.content === '!clear') {
-    let sent = msg.channel.send({ embed });
-    msg.react('✅');
-    msg.react('❌');
+    let id = "";
+    let sent;
+    msg.channel.send({ embed }).then(sent => {
+        id = sent.id;
+        console.log(id);
+    });
+    sent = msg.channel.messages.fetch(id);
+    sent.react('✅');
+    sent.react('❌');
     const collector = msg.createReactionCollector(filter, { time: 15000 });
     collector.on('collect', (reaction, user) => {
         console.log(`Collected ${reaction.emoji.name} from ${user.tag}`);
