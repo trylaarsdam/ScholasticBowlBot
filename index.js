@@ -41,6 +41,7 @@ client.on('message', msg => {
         sent.react('✅');
         sent.react('❌');
         const filter = (reaction, user) => {
+            console.log(reaction.emoji.name);
             return (reaction.emoji.name === '✅' && user.id === msg.author.id) || (reaction.emoji.name === '❌' && user.id === msg.author.id);
         };
         const collector = msg.createReactionCollector(filter, { time: 15000 });
