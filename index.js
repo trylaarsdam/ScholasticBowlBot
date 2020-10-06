@@ -47,7 +47,7 @@ client.on('message', msg => {
             .catch(() => console.log("Failed to react"));
         lastMessage = msg;
         sentMessage = sent;
-        reactionsWait();
+        //reactionsWait();
         /*const collector = msg.createReactionCollector(filter, { time: 15000 });
         collector.on('collect', (reaction, user) => {
             console.log(`Collected ${reaction.emoji.name} from ${user.tag}`);
@@ -76,6 +76,16 @@ const filter = (reaction, user) => {
         return false;
     }
 };
+
+client.on('messageReactionAdd', (reaction, user) => {
+    let message = reaction.message, emoji = reaction.emoji;
+    if(emoji.name == '✅' && message.id == sentMessage.id){
+        clear100(lastMessage, sentMessage);
+    }
+    else if(emoji.name == '❌' && message.id == sentMessage.id){
+        clear(lastMessage, sentMessage);
+    }
+})
 
 async function reactionsWait(){
     console.log('waiting');
