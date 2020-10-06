@@ -77,6 +77,7 @@ async function reactionsWait(){
     lastMessage.awaitReactions(filter, { max:1, time:15000, errors: ['time'] })
         .then(collected => {
             const reaction = collected.first();
+            console.log(collected);
             if(reaction.emoji.name === '✅'){
                 clear100(lastMessage, sentMessage);
             }
@@ -85,7 +86,7 @@ async function reactionsWait(){
             }
         })
         .catch(collected => {
-            lastMessage.reply('You reacted with something other than ✅ or ❌')
+            lastMessage.reply('You reacted with something other than ✅ or ❌, or did not react');
         })
 }
 
