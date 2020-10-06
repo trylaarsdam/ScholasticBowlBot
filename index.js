@@ -1,9 +1,6 @@
 const Discord = require('discord.js');
 const client = new Discord.Client();
 require('dotenv').config()
-const express = require('express')
-const app = express()
-const port = 8000;
 
 const embed = {
     "title": "Are you sure you want to clear the channel?",
@@ -13,31 +10,47 @@ const embed = {
     "footer": {
       "icon_url": "https://cdn.discordapp.com/embed/avatars/0.png",
       "text": "Scholastic Bowl Bot"
-    },
-    "author": {
-      "name": "Action Confirmation",
-      "url": "https://toddr.org",
-      "icon_url": "https://toddr.org/assets/images/t-transparent-114x108.png"
     }
 };
 
+async function clear() {
+    msg.delete();
+    const fetched = await msg.channel.fetchMessages({limit: 99});
+    msg.channel.bulkDelete(fetched);
+    sent.delete();
+}
 
 client.on('ready', () => {
   console.log(`Logged in as ${client.user.tag}!`);
 });
 
-app.get('/', (req, res) => {
-    res.send('Hello World!')
-  })
-  
-  app.listen(port, () => {
-    console.log(`Example app listening at http://localhost:${port}`)
-  })
+const filter = (reaction, user) => {
+	return (reaction.emoji.name === '✅' && user.id === msg.author.id) || (reaction.emoji.name === '❌' && user.id === msg.author.id);
+};
 
 client.on('message', msg => {
   if (msg.content === '!clear') {
-    msg.channel.send({ embed });
+    let sent = msg.channel.send({ embed });
+    msg.react('✅');
+    msg.react('❌');
+    const collector = message.createReactionCollector(filter, { time: 15000 });
+    collector.on('collect', (reaction, user) => {
+        console.log(`Collected ${reaction.emoji.name} from ${user.tag}`);
+        if(reaction.emoji.name === '✅'){
+            clear();
+        }
+        else{
+            msg.delete();
+            sent.delete();
+        }
+    });
+    collector.on('end', collected => {
+        console.log(`Collected ${collected.size} items`);
+        msg.delete();
+        sent.delete();
+    });
   }
 });
+
 
 client.login(process.env.token);
