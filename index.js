@@ -38,11 +38,12 @@ client.on('message', msg => {
     let sent;
     msg.channel.send({ embed }).then(sentmsg => {
         sent = sentmsg;
-        sent.react('✅');
-        sent.react('❌');
+        sent.react('✅')
+            .then(() => sent.react('❌'))
+            .catch(() => console.log("Failed to react"));
         const filter = (reaction, user) => {
             console.log(reaction.emoji.name);
-            return (reaction.emoji.name === '✅' && user.id === msg.author.id) || (reaction.emoji.name === '❌' && user.id === msg.author.id);
+            return ['❌', '✅'].includes(reaction.emoji.name) && user.id === msg.author.id;
         };
         const collector = msg.createReactionCollector(filter, { time: 15000 });
         collector.on('collect', (reaction, user) => {
