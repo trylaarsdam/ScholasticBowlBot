@@ -1,6 +1,9 @@
 const Discord = require('discord.js');
 const client = new Discord.Client();
 require('dotenv').config()
+const express = require('express')
+const app = express()
+const port = 8000;
 
 const embed = {
     "title": "Are you sure you want to clear the channel?",
@@ -23,9 +26,17 @@ client.on('ready', () => {
   console.log(`Logged in as ${client.user.tag}!`);
 });
 
+app.get('/', (req, res) => {
+    res.send('Hello World!')
+  })
+  
+  app.listen(port, () => {
+    console.log(`Example app listening at http://localhost:${port}`)
+  })
+
 client.on('message', msg => {
   if (msg.content === '!clear') {
-    channel.send({ embed });
+    msg.channel.send({ embed });
   }
 });
 
