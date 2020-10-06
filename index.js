@@ -23,10 +23,6 @@ client.on('ready', () => {
   console.log(`Logged in as ${client.user.tag}!`);
 });
 
-const filter = (reaction, user) => {
-	return (reaction.emoji.name === '✅' && user.id === msg.author.id) || (reaction.emoji.name === '❌' && user.id === msg.author.id);
-};
-
 client.on('message', msg => {
   if (msg.content === '!clear') {
     let sent;
@@ -34,6 +30,9 @@ client.on('message', msg => {
         sent = sentmsg;
         sent.react('✅');
         sent.react('❌');
+        const filter = (reaction, user) => {
+            return (reaction.emoji.name === '✅' && user.id === msg.author.id) || (reaction.emoji.name === '❌' && user.id === msg.author.id);
+        };
         const collector = msg.createReactionCollector(filter, { time: 15000 });
         collector.on('collect', (reaction, user) => {
             console.log(`Collected ${reaction.emoji.name} from ${user.tag}`);
