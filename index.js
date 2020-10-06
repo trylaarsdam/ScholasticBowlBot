@@ -1,6 +1,12 @@
 const Discord = require('discord.js');
 const client = new Discord.Client();
 require('dotenv').config()
+const express = require('express');
+const app = express();
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+    console.log(`App is running on port ${ PORT }`);
+});
 
 const embed = {
     "title": "Are you sure you want to clear the channel?",
@@ -12,13 +18,6 @@ const embed = {
       "text": "Scholastic Bowl Bot"
     }
 };
-
-async function clear() {
-    msg.delete();
-    const fetched = await msg.channel.fetchMessages({limit: 99});
-    msg.channel.bulkDelete(fetched);
-    sent.delete();
-}
 
 client.on('ready', () => {
   console.log(`Logged in as ${client.user.tag}!`);
@@ -39,6 +38,13 @@ client.on('message', msg => {
         collector.on('collect', (reaction, user) => {
             console.log(`Collected ${reaction.emoji.name} from ${user.tag}`);
             if(reaction.emoji.name === '✅'){
+                console.log('clear');
+                async function clear() {
+                    msg.delete();
+                    const fetched = await msg.channel.fetchMessages({limit: 99});
+                    msg.channel.bulkDelete(fetched);
+                    sent.delete();
+                }
                 clear();
             }
             else{
