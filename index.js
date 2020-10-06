@@ -40,12 +40,14 @@ client.on('message', msg => {
   if (msg.content === '!clear') {
     let sent;
     msg.channel.send({ embed }).then(sentmsg => {
+        console.log('sending message');
         sent = sentmsg;
         sent.react('✅')
             .then(() => sent.react('❌'))
             .catch(() => console.log("Failed to react"));
         lastMessage = msg;
         sentMessage = sent;
+        reactionsWait();
         /*const collector = msg.createReactionCollector(filter, { time: 15000 });
         collector.on('collect', (reaction, user) => {
             console.log(`Collected ${reaction.emoji.name} from ${user.tag}`);
@@ -71,6 +73,7 @@ const filter = (reaction, user) => {
 };
 
 async function reactionsWait(){
+    console.log('waiting');
     lastMessage.awaitReactions(filter, { max:1, time:15000, errors: ['time'] })
         .then(collected => {
             const reaction = collected.first();
