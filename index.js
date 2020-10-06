@@ -19,6 +19,16 @@ const embed = {
     }
 };
 
+async function clear100(original, sent){
+    const fetched = await original.channel.fetchMessages({limit: 99});
+    original.channel.bulkDelete(fetched);
+}
+
+function clear(original, sent){
+    original.delete();
+    sent.delete();
+}
+
 client.on('ready', () => {
   console.log(`Logged in as ${client.user.tag}!`);
 });
@@ -37,18 +47,10 @@ client.on('message', msg => {
         collector.on('collect', (reaction, user) => {
             console.log(`Collected ${reaction.emoji.name} from ${user.tag}`);
             if(reaction.emoji.name === '✅'){
-                console.log('clear');
-                async function clear() {
-                    msg.delete();
-                    const fetched = await msg.channel.fetchMessages({limit: 99});
-                    msg.channel.bulkDelete(fetched);
-                    sent.delete();
-                }
-                clear();
+                clear100(msg, sent);
             }
             else{
-                msg.delete();
-                sent.delete();
+                clear(msg, sent);
             }
         });
         collector.on('end', collected => {
