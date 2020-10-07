@@ -73,6 +73,14 @@ client.on('message', msg => {
         });*/
     });
   }
+  else if (msg.content === '!mutechannel'){
+      if(msg.author.hasPermission('ADMINISTRATOR')){
+          msg.reply("You have permission");
+      }
+      else{
+          msg.reply("You need `ADMINISTRATOR` permissions to run that command");
+      }
+  }
 });
 var emojiRecieved = "none";
 const filter = (reaction, user) => {
