@@ -133,7 +133,7 @@ client.on('message', msg => {
             msg.reply("Nobody has buzzed yet.");
         }
         else{
-            var buzzList = buzzListTemplate;
+            var buzzList = new buzzListTemplate;
             buzzList.fields[0].value = buzzOrder[0];
             buzzOrder.forEach(function() {
                 var inc = 1;
@@ -237,7 +237,7 @@ function reactionsWait() {
 }
 
 function resetReactionsWait() {
-    console.log('waiting');
+    console.log('reset waiting');
     let collector = resetSentMessage.createReactionCollector(resetFilter, { time: 15000 });
     collector.on('collect', (reaction, collector) => {
         console.log('got a reaction');
