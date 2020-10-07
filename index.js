@@ -149,6 +149,8 @@ client.on('message', msg => {
             }
             else{
                 buzzOrder.push(msg.member.user.username);
+                msg.channel.send(msg.member.user.username + " has also buzzed");
+                msg.delete();
             }
         }
         else{
