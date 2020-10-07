@@ -74,7 +74,7 @@ client.on('message', msg => {
     });
   }
   else if (msg.content === '!mutechannel'){
-      if(msg.author.hasPermission('ADMINISTRATOR')){
+      if(msg.member.hasPermission('ADMINISTRATOR')){
           msg.reply("You have permission");
       }
       else{
