@@ -130,18 +130,19 @@ function reactionsWait(){
         console.log('got a reaction');
         lastMessage.channel.fetch()
             .then(function(list){
-                if(setting == "check"){
+                if(emojiRecieved == "check"){
                     lastMessage.channel.bulkDelete(100);
-                    setting = "none";
+                    emojiRecieved = "none";
                 }
-                else if(setting == "cancel"){
+                else if(emojiRecieved == "cancel"){
                     lastMessage.delete();
                     sentMessage.delete();
+                    emojiRecieved == "none";
                 }
             },
             function(err){
                 lastMessage.channel.send("Error deleting messages. Check my permissions!")
-                setting = "none";
+                emojiRecieved = "none";
             })
     });
     collector.on('end', collected => {
