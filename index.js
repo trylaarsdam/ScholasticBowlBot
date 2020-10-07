@@ -182,8 +182,8 @@ client.on('message', msg => {
     }
     else if (msg.content.startsWith("!team")){
         var content = [];
-        let team1 = msg.guild.roles.find(r => r.name === "Team 1");
-        let team2 = msg.guild.roles.find(r => r.name === "Team 2");
+        let team1 = msg.guild.roles.fetch(r => r.name === "Team 1");
+        let team2 = msg.guild.roles.fetch(r => r.name === "Team 2");
         content = msg.content.split(" ");
         if(content[1] == '1'){
             msg.channel.member.roles.add(team1);
