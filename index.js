@@ -144,14 +144,14 @@ client.on('message', msg => {
     }
     else if (msg.content === '!buzz'){
         if(msg.member.roles.cache.find(r => r.name === "Team 2") || msg.member.roles.cache.find(r => r.name === "Team 1")){
-            if(!buzzActive && !buzzList.includes(msg.member)){
+            if(!buzzActive && !buzzOrder.includes(msg.member)){
                 buzzActive = true;
                 buzzOrder.push(msg.member);
                 msg.channel.send(msg.member.displayName + " has buzzed");
                 msg.delete();
                 msg.member.voice.setMute(false, "Buzzed");
             }
-            else if(buzzList.includes(msg.member)){
+            else if(buzzOrder.includes(msg.member)){
                 msg.reply("You have already buzzed this round");
                 msg.delete();
             }
