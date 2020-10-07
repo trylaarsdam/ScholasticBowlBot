@@ -83,9 +83,6 @@ client.on('message', msg => {
                     member.voice.serverMute = true;
                 }
             })
-                .catch((err) => {
-                    msg.reply("You need to be in a voice channel to run this command");
-                })
         }
         else {
             msg.reply("You need `MUTE_MEMBERS` permissions to run that command");
@@ -98,9 +95,6 @@ client.on('message', msg => {
             channel.members.forEach((member) => {
                 member.voice.serverMute = false;
             })
-                .catch((err) => {
-                    msg.reply("You need to be in a voice channel to run this command");
-                })
         }
         else {
             msg.reply("You need `MUTE_MEMBERS` permissions to run that command");
