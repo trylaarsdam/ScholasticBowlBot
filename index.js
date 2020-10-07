@@ -12,7 +12,7 @@ var setting = 0;
 var buzzOrder = [];
 
 const embed = {
-    "title": "Are you sure you want to clear the channel?",
+    "title": "Are you sure you want to do this?",
     "description": "React yes (✅) or no (❌)",
     "color": 62463,
     "timestamp": "2020-10-06T21:23:50.909Z",
@@ -204,7 +204,7 @@ function reactionsWait() {
 
 function resetReactionsWait() {
     console.log('waiting');
-    let collector = resetSentMessage.createReactionCollector(filter, { time: 15000 });
+    let collector = resetSentMessage.createReactionCollector(resetFilter, { time: 15000 });
     collector.on('collect', (reaction, collector) => {
         console.log('got a reaction');
         resetLastMessage.channel.fetch()
