@@ -187,17 +187,23 @@ client.on('message', msg => {
         content = msg.content.split(" ");
         if(content[1] == '1'){
             msg.member.roles.add(team1);
+            if(msg.member.roles.cache.find(r => r.name === "Team 2")){
+                msg.member.roles.remove(team2);
+            }
             msg.delete();
         }
         else if(content[1] == '2'){
             msg.member.roles.add(team2);
+            if(msg.member.roles.cache.find(r => r.name === "Team 1")){
+                msg.member.roles.remove(team1);
+            }
             msg.delete();
         }
         else if(content[1] == 'leave'){
-            if(msg.member.roles.cache.find(team1)){
+            if(msg.member.roles.cache.find(r => r.name === "Team 1")){
                 msg.member.roles.remove(team1);
             }
-            else if(msg.member.roles.cache.find(team2)){
+            else if(msg.member.roles.cache.find(r => r.name === "Team 2")){
                 msg.member.roles.remove(team2);
             }
             msg.delete();
