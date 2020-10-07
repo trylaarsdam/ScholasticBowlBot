@@ -194,10 +194,10 @@ client.on('message', msg => {
             msg.delete();
         }
         else if(content[1] == 'leave'){
-            if(msg.member.roles.find(team1)){
+            if(msg.member.roles.cache.find(team1)){
                 msg.member.roles.remove(team1);
             }
-            else if(msg.member.roles.find(team2)){
+            else if(msg.member.roles.cache.find(team2)){
                 msg.member.roles.remove(team2);
             }
             msg.delete();
