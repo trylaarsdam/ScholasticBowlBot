@@ -183,7 +183,7 @@ client.on('message', msg => {
             buzzOrder.forEach(function() {
                 buzzList.fields.push({
                     "name": (inc+1).toString(),
-                    "value": buzzOrder[inc].displayName.
+                    "value": buzzOrder[inc].displayName
                 })
                 inc = inc + 1;
             })
