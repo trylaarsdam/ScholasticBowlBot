@@ -136,8 +136,8 @@ client.on('message', msg => {
             sent.react('✅')
                 .then(() => sent.react('❌'))
                 .catch(() => console.log("Failed to react"));
-            lastMessage = msg;
-            sentMessage = sent;
+            resetLastMessage = msg;
+            resetSentMessage = sent;
             resetReactionsWait();
         });
     }
@@ -160,8 +160,8 @@ const filter = (reaction, user) => {
     }
 };
 const resetFilter = (reaction, user) => {
-    console.log("reacted");
-    if ((reaction.emoji.name == '✅' || reaction.emoji.name == '❌') && user.id == lastMessage.author.id) {
+    console.log("reset reacted");
+    if ((reaction.emoji.name == '✅' || reaction.emoji.name == '❌') && user.id == resetLastMessage.author.id) {
         if (reaction.emoji.name == '✅') {
             resetEmojiRecieved = "check";
         }
@@ -198,6 +198,7 @@ function reactionsWait() {
         lastMessage.channel.fetch()
             .then(function (list) {
                 if (emojiRecieved == "check") {
+                    console.log("check");
                     lastMessage.channel.bulkDelete(100);
                     emojiRecieved = "none";
                 }
