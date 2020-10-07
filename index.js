@@ -162,6 +162,7 @@ client.on('message', msg => {
             })
             msg.channel.send({embed: buzzList})
             msg.delete();
+            buzzlist = {};
         }
     }
     else if (msg.content === '!reset'){
