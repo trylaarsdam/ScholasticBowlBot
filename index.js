@@ -143,7 +143,7 @@ client.on('message', msg => {
             buzzOrder.push(msg.member.user.username);
         }
     }
-    else if (msg.content.contains('rink') || msg.content.contains('Rink')){
+    else if (msg.content.includes('rink') || msg.content.includes('Rink')){
         msg.member.send("CARLTON");
     }
     else if(msg.content === '!buzzlist'){
