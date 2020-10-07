@@ -16,14 +16,19 @@ const embed = {
     "color": 62463,
     "timestamp": "2020-10-06T21:23:50.909Z",
     "footer": {
-      "icon_url": "https://cdn.discordapp.com/embed/avatars/0.png",
       "text": "Scholastic Bowl Bot"
     }
 };
 
 async function clear100(original, sent){
-    const fetched = await original.channel.fetchMessages({limit: 99});
-    original.channel.bulkDelete(fetched);
+    sent.channel.fetchMessages()
+        .then(function(list){
+            sent.channel.bulkDelete(list);
+        },
+        function(err){
+            message.channel.send("Error deleting messages. Please check my permissions!")
+        }
+    )
 }
 
 function clear(original, sent){
@@ -116,6 +121,7 @@ function reactionsWait(){
     let collector = sentMessage.createReactionCollector(filter, { time: 15000 });
     collector.on('collect', (reaction, collector) => {
         console.log('got a reaction');
+        clear100(lastMessage, sentMessage);
         collector.end();
     });
     collector.on('end', collected => {
