@@ -145,11 +145,17 @@ client.on('message', msg => {
     }
     else if (msg.content === '!next'){
         if(msg.member.hasPermission('ADMINISTRATOR') || member.roles.cache.find(r => r.name === 'Bot Master')){
-            buzzOrder[unmutedBuzzer].voice.setMute(true, "Next Buzzer");
-            unmutedBuzzer++;
-            buzzOrder[unmutedBuzzer].voice.setMute(false, "Next Buzzer");
-            msg.channel.send(msg.member.displayName + " has been unmuted.");
-            msg.delete();
+            if(buzzOrder[unmutedBuzzer] && buzzOrder[unmutedBuzzer + 1]){
+                buzzOrder[unmutedBuzzer].voice.setMute(true, "Next Buzzer");
+                unmutedBuzzer++;
+                buzzOrder[unmutedBuzzer].voice.setMute(false, "Next Buzzer");
+                msg.channel.send(msg.member.displayName + " has been unmuted.");
+                msg.delete();
+            }
+            else{
+                msg.reply("There are no more users that have buzzed to move to.");
+                msg.delete();
+            }
         }
         else{
             msg.reply('You need `ADMINISTRATOR` permissions to use this command');
