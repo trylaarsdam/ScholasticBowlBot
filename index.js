@@ -9,6 +9,7 @@ app.listen(PORT, () => {
 });
 
 var setting = 0;
+var buzzOrder = [];
 
 const embed = {
     "title": "Are you sure you want to clear the channel?",
@@ -17,6 +18,16 @@ const embed = {
     "timestamp": "2020-10-06T21:23:50.909Z",
     "footer": {
         "text": "Scholastic Bowl Bot"
+    }
+};
+
+const resetEmbed = {
+    "title": "Are you sure you want to reset the queue?",
+    "description": "React yes (✅) or no (❌)",
+    "color": 62463,
+    "timestamp": "2020-10-06T21:23:50.909Z",
+    "footer": {
+      "text": "Scholastic Bowl Bot"
     }
 };
 
@@ -42,7 +53,11 @@ client.on('ready', () => {
 
 let lastMessage;
 let sentMessage;
+let resetLastMessage;
+let resetSentMessage;
 let muteChannel;
+var buzzActive = false;
+let resetEmojiRecieved;
 
 client.on('message', msg => {
     if (msg.content === '!clear') {
@@ -80,7 +95,7 @@ client.on('message', msg => {
             let channel = msg.member.voice.channel;
             channel.members.forEach((member) => {
                 if(!member.roles.cache.find(r => r.name === 'Mute Exempt')){
-                    console.log(member.id);
+                    //console.log(member.id);
                     member.voice.setMute(true, "Channel muted by moderator");
                 }
             })
@@ -91,7 +106,7 @@ client.on('message', msg => {
     }
     else if (msg.content === '!unmutechannel') {
         if (msg.member.hasPermission('MUTE_MEMBERS')) {
-            msg.reply("Allowed everyone in the channel to unmute");
+            msg.reply("Channel has been unmuted");
             let channel = msg.member.voice.channel;
             channel.members.forEach((member) => {
                 member.voice.setMute(false, "Channel unmuted by moderator");
@@ -100,6 +115,31 @@ client.on('message', msg => {
         else {
             msg.reply("You need `MUTE_MEMBERS` permissions to run that command");
         }
+    }
+    else if (msg.content === '!buzz'){
+        if(!buzzActive){
+            buzzActive = true;
+            buzzOrder.append(msg.member.name);
+            msg.channel.send(msg.member.name + " has buzzed");
+            msg.delete();
+            msg.member.voice.setMute(false, "Buzzed");
+        }
+        else{
+            buzzOrder.append(msg.member.name);
+        }
+    }
+    else if (msg.content === '!reset'){
+        let sent;
+        msg.channel.send({ resetEmbed }).then(sentmsg => {
+            console.log('sending message');
+            sent = sentmsg;
+            sent.react('✅')
+                .then(() => sent.react('❌'))
+                .catch(() => console.log("Failed to react"));
+            lastMessage = msg;
+            sentMessage = sent;
+            resetReactionsWait();
+        });
     }
 });
 var emojiRecieved = "none";
@@ -116,6 +156,22 @@ const filter = (reaction, user) => {
     }
     else {
         emojiRecieved = "none";
+        return false;
+    }
+};
+const resetFilter = (reaction, user) => {
+    console.log("reacted");
+    if ((reaction.emoji.name == '✅' || reaction.emoji.name == '❌') && user.id == lastMessage.author.id) {
+        if (reaction.emoji.name == '✅') {
+            resetEmojiRecieved = "check";
+        }
+        else if (reaction.emoji.name == '❌') {
+            resetEmojiRecieved = "cancel";
+        }
+        return true;
+    }
+    else {
+        resetEmojiRecieved = "none";
         return false;
     }
 };
@@ -136,24 +192,7 @@ const filter = (reaction, user) => {
 
 function reactionsWait() {
     console.log('waiting');
-    /*lastMessage.awaitReactions(filter, { max:2, time:15000, errors: ['time'] })
-        .then(collected => {
-            console.log("Reacted!");
-            const reaction = collected.first();
-            console.log(collected);
-            if(reaction.emoji.name === '✅'){
-                clear100(lastMessage, sentMessage);
-            }
-            else{
-                clear(lastMessage, sentMessage);
-            }
-        })
-        .catch(collected => {
-            lastMessage.reply('You reacted with something other than ✅ or ❌, or did not react');
-            lastMessage.delete();
-            sentMessage.delete();
-        })*/
-    let collector = sentMessage.createReactionCollector(filter, { time: 15000 });
+    let collector = sentMessage.createReactionCollector(resetFilter, { time: 15000 });
     collector.on('collect', (reaction, collector) => {
         console.log('got a reaction');
         lastMessage.channel.fetch()
@@ -171,6 +210,36 @@ function reactionsWait() {
                 function (err) {
                     lastMessage.channel.send("Error deleting messages. Check my permissions!")
                     emojiRecieved = "none";
+                })
+    });
+    collector.on('end', collected => {
+        console.log(`collected ${collected.size} reactions`);
+    });
+}
+
+function resetReactionsWait() {
+    console.log('waiting');
+    let collector = resetSentMessage.createReactionCollector(filter, { time: 15000 });
+    collector.on('collect', (reaction, collector) => {
+        console.log('got a reaction');
+        resetLastMessage.channel.fetch()
+            .then(function (list) {
+                if (resetEmojiRecieved == "check") {
+                    resetLastMessage.delete();
+                    resetSentMessage.delete();
+                    buzzActive = false;
+                    buzzOrder = [];
+                    resetEmojiRecieved = "none";
+                }
+                else if (resetEmojiRecieved == "cancel") {
+                    resetLastMessage.delete();
+                    resetSentMessage.delete();
+                    resetEmojiRecieved == "none";
+                }
+            },
+                function (err) {
+                    resetLastMessage.channel.send("Error deleting messages. Check my permissions!")
+                    resetEmojiRecieved = "none";
                 })
     });
     collector.on('end', collected => {
