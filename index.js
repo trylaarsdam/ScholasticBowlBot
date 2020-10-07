@@ -77,18 +77,12 @@ client.on('message', msg => {
     else if (msg.content === '!mutechannel') {
         if (msg.member.hasPermission('MUTE_MEMBERS')) {
             msg.reply("Muted everyone in channel");
-            let channel = msg.member.voiceChannel;
-            msg.guild.channels.get(channel.id).members.forEach((member) => {
-                member.setMute(true);
+            let channel = msg.member.get.voiceChannelID;
+            msg.guild.channels.get(channel).members.forEach((member) => {
+                if(!member.roles.find(r => r.name === "Mute Exempt")){
+                    member.setMute(true);
+                }
             })
-            for (let member of channel.members) {
-                if (!member.roles.find(r => r.name == "Mute Exempt")) {
-                    member[1].setMute(true);
-                }
-                else {
-                    msg.reply(member.name + " is exempt!");
-                }
-            }
         }
         else {
             msg.reply("You need `MUTE_MEMBERS` permissions to run that command");
