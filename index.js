@@ -133,7 +133,7 @@ client.on('message', msg => {
             msg.reply("Nobody has buzzed yet.");
         }
         else{
-            var buzzList = new buzzListTemplate;
+            var buzzList = buzzListTemplate;
             buzzList.fields[0].value = buzzOrder[0];
             buzzOrder.forEach(function() {
                 var inc = 1;
