@@ -79,7 +79,7 @@ client.on('message', msg => {
             msg.reply("Muted everyone in channel");
             let channel = msg.member.voice.channel;
             channel.members.forEach((member) => {
-                if(!member.roles.some(role => role.name === 'Mute Exempt')){
+                if(!member.roles.cache.find(r => r.name === 'Mute Exempt')){
                     member.setMute(true);
                 }
             })
