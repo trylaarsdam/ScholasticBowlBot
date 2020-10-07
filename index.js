@@ -91,10 +91,11 @@ let resetLastMessage;
 let resetSentMessage;
 var buzzActive = false;
 var resetEmojiRecieved = "none";
+var unmutedBuzzer = 0;
 
 client.on('message', msg => {
     if (msg.content === '!clear') {
-        if(msg.member.hasPermission('MANAGE_MESSAGES')){
+        if(msg.member.hasPermission('MANAGE_MESSAGES') || member.roles.cache.find(r => r.name === 'Bot Master')){
             let sent;
             msg.channel.send({ embed }).then(sentmsg => {
                 console.log('sending message');
@@ -113,7 +114,7 @@ client.on('message', msg => {
         }
     }
     else if (msg.content === '!mutechannel') {
-        if (msg.member.hasPermission('MUTE_MEMBERS')) {
+        if (msg.member.hasPermission('MUTE_MEMBERS') || member.roles.cache.find(r => r.name === 'Bot Master')) {
             channelMuted = true;
             msg.reply("Muted everyone in channel");
             let channel = msg.member.voice.channel;
@@ -130,7 +131,7 @@ client.on('message', msg => {
         }
     }
     else if (msg.content === '!unmutechannel') {
-        if (msg.member.hasPermission('MUTE_MEMBERS')) {
+        if (msg.member.hasPermission('MUTE_MEMBERS') || member.roles.cache.find(r => r.name === 'Bot Master')) {
             channelMuted = false;
             msg.reply("Channel has been unmuted");
             let channel = msg.member.voice.channel;
@@ -142,9 +143,20 @@ client.on('message', msg => {
             msg.reply("You need `MUTE_MEMBERS` permissions to run that command");
         }
     }
+    else if (msg.content === '!next'){
+        if(msg.member.hasPermission('ADMINISTRATOR') || member.roles.cache.find(r => r.name === 'Bot Master')){
+            buzzOrder[unmutedBuzzer].voice.setMute(true, "Next Buzzer");
+            unmutedBuzzer++;
+            buzzOrder[unmutedBuzzer].voice.setMute(false, "Next Buzzer");
+        }
+        else{
+            msg.reply('You need `ADMINISTRATOR` permissions to use this command');
+        }
+    }
     else if (msg.content === '!buzz'){
         if(msg.member.roles.cache.find(r => r.name === "Team 2") || msg.member.roles.cache.find(r => r.name === "Team 1")){
             if(!buzzActive && !buzzOrder.includes(msg.member)){
+                unmutedBuzzer = 0;
                 buzzActive = true;
                 buzzOrder.push(msg.member);
                 msg.channel.send(msg.member.displayName + " has buzzed");
@@ -201,7 +213,7 @@ client.on('message', msg => {
         }
     }
     else if (msg.content === '!reset'){
-        if(msg.member.hasPermission('ADMINISTRATOR')){
+        if(msg.member.hasPermission('ADMINISTRATOR') || member.roles.cache.find(r => r.name === 'Bot Master')){
             let resetsent;
             msg.channel.send({ embed }).then(sentmsg => {
                 console.log('sending message');
