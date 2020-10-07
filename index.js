@@ -193,6 +193,15 @@ client.on('message', msg => {
             msg.member.roles.add(team2);
             msg.delete();
         }
+        else if(content[2] == 'leave'){
+            if(msg.member.roles.has(team1)){
+                msg.member.roles.remove(team1);
+            }
+            else if(msg.member.roles.has(team2)){
+                msg.member.roles.remove(team2);
+            }
+            msg.delete();
+        }
         else{
             msg.reply("You need to specify either team `1` or `2`");
             msg.delete();
