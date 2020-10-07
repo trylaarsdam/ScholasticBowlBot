@@ -25,6 +25,10 @@ app.get('/web/js', function(req, res) {
     res.sendFile(__dirname + "/web/script.js")
 })
 
+app.get('/docs', function(req, res) {
+    res.redirect('https://github.com/trylaarsdam/ScholasticBowlBot/wiki');
+})
+
 var setting = 0;
 var buzzOrder = [];
 var channelMuted = false;
@@ -193,17 +197,26 @@ client.on('message', msg => {
         }
     }
     else if (msg.content === '!reset'){
-        let resetsent;
-        msg.channel.send({ embed }).then(sentmsg => {
-            console.log('sending message');
-            resetsent = sentmsg;
-            resetsent.react('✅')
-                .then(() => resetsent.react('❌'))
-                .catch(() => console.log("Failed to react"));                           
-            resetLastMessage = msg;
-            resetSentMessage = resetsent;
-            resetReactionsWait();
-        });
+        if(msg.member.hasPermission('ADMINISTRATOR')){
+            let resetsent;
+            msg.channel.send({ embed }).then(sentmsg => {
+                console.log('sending message');
+                resetsent = sentmsg;
+                resetsent.react('✅')
+                    .then(() => resetsent.react('❌'))
+                    .catch(() => console.log("Failed to react"));                           
+                resetLastMessage = msg;
+                resetSentMessage = resetsent;
+                resetReactionsWait();
+            });
+        }
+        else{
+            msg.reply("You need `ADMINISTRATOR` permissions to run this command");
+            msg.delete();
+        }
+    }
+    else if (msg.content === '!help'){
+        msg.reply("Help/commands can be found at http://scholastic.toddr.org/docs")
     }
     else if (msg.content.startsWith("!team")){
         var content = [];
