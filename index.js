@@ -57,7 +57,7 @@ let resetLastMessage;
 let resetSentMessage;
 let muteChannel;
 var buzzActive = false;
-let resetEmojiRecieved;
+var resetEmojiRecieved = "none";
 
 client.on('message', msg => {
     if (msg.content === '!clear') {
@@ -119,13 +119,13 @@ client.on('message', msg => {
     else if (msg.content === '!buzz'){
         if(!buzzActive){
             buzzActive = true;
-            buzzOrder.append(msg.member.name);
+            buzzOrder.push(msg.member.name);
             msg.channel.send(msg.member.name + " has buzzed");
             msg.delete();
             msg.member.voice.setMute(false, "Buzzed");
         }
         else{
-            buzzOrder.append(msg.member.name);
+            buzzOrder.push(msg.member.name);
         }
     }
     else if (msg.content === '!reset'){
