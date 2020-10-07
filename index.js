@@ -77,8 +77,8 @@ client.on('message', msg => {
     else if (msg.content === '!mutechannel') {
         if (msg.member.hasPermission('MUTE_MEMBERS')) {
             msg.reply("Muted everyone in channel");
-            let channel = msg.member.voiceChannel;
-            msg.guild.channels.get(channel.description).members.forEach((member) => {
+            let channel = msg.member.voice.channel;
+            msg.guild.channels.get(channel.id).members.forEach((member) => {
                 if(!member.roles.find(r => r.name === "Mute Exempt")){
                     member.setMute(true);
                 }
