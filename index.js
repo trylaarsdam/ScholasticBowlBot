@@ -49,7 +49,7 @@ const resetEmbed = {
     }
 };
 
-const buzzListTemplate = {
+/*const buzzListTemplate = {
     "title": "Buzz List",
     "description": "Shows the order in which players used the !buzz command for this question.",
     "color": 6748568,
@@ -59,7 +59,7 @@ const buzzListTemplate = {
     },
     "fields": [
     ]
-};
+};*/
 
 async function clear100(original, sent) {
     sent.channel.fetchMessages()
@@ -142,14 +142,14 @@ client.on('message', msg => {
         if(msg.member.roles.cache.find(r => r.name === "Team 2") || msg.member.roles.cache.find(r => r.name === "Team 1")){
             if(!buzzActive){
                 buzzActive = true;
-                buzzOrder.push(msg.member.user.username);
-                msg.channel.send(msg.member.user.username + " has buzzed");
+                buzzOrder.push(msg.member);
+                msg.channel.send(msg.member.displayName + " has buzzed");
                 msg.delete();
                 msg.member.voice.setMute(false, "Buzzed");
             }
             else{
-                buzzOrder.push(msg.member.user.username);
-                msg.channel.send(msg.member.user.username + " has also buzzed");
+                buzzOrder.push(msg.member);
+                msg.channel.send(msg.member.displayName + " has also buzzed");
                 msg.delete();
             }
         }
@@ -183,7 +183,7 @@ client.on('message', msg => {
             buzzOrder.forEach(function() {
                 buzzList.fields.push({
                     "name": (inc+1).toString(),
-                    "value": buzzOrder[inc]
+                    "value": buzzOrder[inc].displayName.
                 })
                 inc = inc + 1;
             })
@@ -329,7 +329,7 @@ function resetReactionsWait() {
                     buzzOrder = [];
                     resetEmojiRecieved = "none";
                     channelMuted = true;
-                    resetLastMessage.reply("Muted everyone in channel");
+                    resetLastMessage.reply("Reset buzzes + muted the channel");
                     let channel = resetLastMessage.member.voice.channel;
                     channel.members.forEach((member) => {
                         if(!member.roles.cache.find(r => r.name === 'Mute Exempt')){
