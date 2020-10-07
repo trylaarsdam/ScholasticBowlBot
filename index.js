@@ -135,8 +135,8 @@ client.on('message', msg => {
     else if (msg.content === '!buzz'){
         if(!buzzActive){
             buzzActive = true;
-            buzzOrder.push(msg.member.name);
-            msg.channel.send(msg.member.name + " has buzzed");
+            buzzOrder.push(msg.member.nickname);
+            msg.channel.send(msg.member.nickname + " has buzzed");
             msg.delete();
             msg.member.voice.setMute(false, "Buzzed");
         }
