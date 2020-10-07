@@ -80,8 +80,23 @@ client.on('message', msg => {
             let channel = msg.member.voice.channel;
             channel.members.forEach((member) => {
                 if(!member.roles.cache.find(r => r.name === 'Mute Exempt')){
-                    member.setMute(true);
+                    member.voice.serverMute = true;
                 }
+            })
+                .catch((err) => {
+                    msg.reply("You need to be in a voice channel to run this command");
+                })
+        }
+        else {
+            msg.reply("You need `MUTE_MEMBERS` permissions to run that command");
+        }
+    }
+    else if (msg.content === '!unmutechannel') {
+        if (msg.member.hasPermission('MUTE_MEMBERS')) {
+            msg.reply("Allowed everyone in the channel to unmute");
+            let channel = msg.member.voice.channel;
+            channel.members.forEach((member) => {
+                member.voice.serverMute = false;
             })
                 .catch((err) => {
                     msg.reply("You need to be in a voice channel to run this command");
