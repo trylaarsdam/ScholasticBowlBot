@@ -143,6 +143,7 @@ client.on('message', msg => {
                 })
                 inc = inc + 1;
             })
+            msg.channel.send({buzzList})
         }
     }
     else if (msg.content === '!reset'){
