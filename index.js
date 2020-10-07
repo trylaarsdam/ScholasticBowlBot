@@ -192,7 +192,7 @@ const resetFilter = (reaction, user) => {
 
 function reactionsWait() {
     console.log('waiting');
-    let collector = sentMessage.createReactionCollector(resetFilter, { time: 15000 });
+    let collector = sentMessage.createReactionCollector(filter, { time: 15000 });
     collector.on('collect', (reaction, collector) => {
         console.log('got a reaction');
         lastMessage.channel.fetch()
