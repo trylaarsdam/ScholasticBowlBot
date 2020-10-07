@@ -139,16 +139,23 @@ client.on('message', msg => {
         }
     }
     else if (msg.content === '!buzz'){
-        if(!buzzActive){
-            buzzActive = true;
-            buzzOrder.push(msg.member.user.username);
-            msg.channel.send(msg.member.user.username + " has buzzed");
-            msg.delete();
-            msg.member.voice.setMute(false, "Buzzed");
+        if(msg.member.roles.cache.find(r => r.name === "Team 2") || msg.member.roles.cache.find(r => r.name === "Team 1")){
+            if(!buzzActive){
+                buzzActive = true;
+                buzzOrder.push(msg.member.user.username);
+                msg.channel.send(msg.member.user.username + " has buzzed");
+                msg.delete();
+                msg.member.voice.setMute(false, "Buzzed");
+            }
+            else{
+                buzzOrder.push(msg.member.user.username);
+            }
         }
         else{
-            buzzOrder.push(msg.member.user.username);
+            msg.reply("You need to be on a team to buzz!");
+            msg.delete();
         }
+        
     }
     else if (msg.content.includes('rink') || msg.content.includes('Rink')){
         msg.member.send("CARLTON");
