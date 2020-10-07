@@ -71,22 +71,6 @@ client.on('message', msg => {
             lastMessage = msg;
             sentMessage = sent;
             reactionsWait();
-            //reactionsWait();
-            /*const collector = msg.createReactionCollector(filter, { time: 15000 });
-            collector.on('collect', (reaction, user) => {
-                console.log(`Collected ${reaction.emoji.name} from ${user.tag}`);
-                if(reaction.emoji.name === '✅'){
-                    clear100(msg, sent);
-                }
-                else{
-                    clear(msg, sent);
-                }
-            });
-            collector.on('end', collected => {
-                console.log(`Collected ${collected.size} items`);
-                msg.delete();
-                sent.delete();
-            });*/
         });
     }
     else if (msg.content === '!mutechannel') {
@@ -130,7 +114,7 @@ client.on('message', msg => {
     }
     else if (msg.content === '!reset'){
         let resetsent;
-        msg.channel.send({ resetEmbed }).then(sentmsg => {
+        msg.channel.send({ embed }).then(sentmsg => {
             console.log('sending message');
             resetsent = sentmsg;
             resetsent.react('✅')
