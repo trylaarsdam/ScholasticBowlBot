@@ -13,6 +13,10 @@ app.get('/invite', function (req, res) {
     return;
 })
 
+app.get('/', function (req, res) {
+    res.sendFile(__dirname + "/web/index.html");
+})
+
 var setting = 0;
 var buzzOrder = [];
 var channelMuted = false;
