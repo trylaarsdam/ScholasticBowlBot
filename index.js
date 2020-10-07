@@ -85,7 +85,7 @@ let lastMessage;
 let sentMessage;
 let resetLastMessage;
 let resetSentMessage;
-let muteChannel;
+let channelMuted;
 var buzzActive = false;
 var resetEmojiRecieved = "none";
 
@@ -143,6 +143,9 @@ client.on('message', msg => {
         else{
             buzzOrder.push(msg.member.user.username);
         }
+    }
+    else if (msg.content.startsWith('rink')){
+
     }
     else if(msg.content === '!buzzlist'){
         if(!buzzActive){
@@ -274,7 +277,9 @@ function resetReactionsWait() {
                     channel.members.forEach((member) => {
                         if(!member.roles.cache.find(r => r.name === 'Mute Exempt')){
                             //console.log(member.id);
-                            member.voice.setMute(true, "Channel muted by moderator");
+                            if(channelMuted){
+                                member.voice.setMute(true, "Channel muted by moderator");
+                            }
                         }
                     })
                 }
