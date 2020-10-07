@@ -74,13 +74,20 @@ client.on('message', msg => {
     });
   }
 });
-
+var emojiRecieved = "none";
 const filter = (reaction, user) => {
     console.log("reacted");
     if((reaction.emoji.name == '✅' || reaction.emoji.name == '❌') && user.id == lastMessage.author.id){
+        if(reaction.emoji.name == '✅'){
+            emojiRecieved = "check";
+        }
+        else if(reaction.emoji.name == '❌'){
+            emojiRecieved = "cancel";
+        }
         return true;
     }
     else{
+        emojiRecieved = "none";
         return false;
     }
 };
@@ -128,7 +135,7 @@ function reactionsWait(){
             function(err){
                 lastMessage.channel.send("Error deleting messages. Check my permissions!")
             })
-        collector.end();
+        collector.stop();
     });
     collector.on('end', collected => {
         console.log(`collected ${collected.size} reactions`);
