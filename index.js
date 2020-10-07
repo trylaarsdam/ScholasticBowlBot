@@ -17,11 +17,11 @@ app.get('/', function (req, res) {
     res.sendFile(__dirname + "/web/index.html");
 })
 
-app.get('/cdn/css', function(req, res) {
+app.get('/web/css', function(req, res) {
     res.sendFile(__dirname + "/web/style.css")
 })
 
-app.get('/cdn/js', function(req, res) {
+app.get('/web/js', function(req, res) {
     res.sendFile(__dirname + "/web/script.js")
 })
 
