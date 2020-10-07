@@ -31,6 +31,22 @@ const resetEmbed = {
     }
 };
 
+const buzzListTemplate = {
+    "title": "Buzz List",
+    "description": "Shows the order in which players used the !buzz command for this question.",
+    "color": 6748568,
+    "timestamp": "2020-10-07T03:10:08.360Z",
+    "footer": {
+      "text": "Scholastic Bowl Bot"
+    },
+    "fields": [
+        {
+            "name": "1",
+            "value": "User"
+        }
+    ]
+};
+
 async function clear100(original, sent) {
     sent.channel.fetchMessages()
         .then(function (list) {
@@ -110,6 +126,23 @@ client.on('message', msg => {
         }
         else{
             buzzOrder.push(msg.member.name);
+        }
+    }
+    else if(msg.content === '!buzzlist'){
+        if(!buzzActive){
+            msg.reply("Nobody has buzzed yet.");
+        }
+        else{
+            var buzzList = buzzListTemplate;
+            buzzList.fields[0].value = buzzOrder[0];
+            buzzOrder.forEach(function() {
+                var inc = 1;
+                buzzList.fields.push({
+                    "name": inc.toString(),
+                    "value": buzzOrder[inc]
+                })
+                inc = inc + 1;
+            })
         }
     }
     else if (msg.content === '!reset'){
