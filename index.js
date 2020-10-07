@@ -189,11 +189,11 @@ client.on('message', msg => {
             msg.member.roles.add(team1);
             msg.delete();
         }
-        else if(content[2] == '2'){
+        else if(content[1] == '2'){
             msg.member.roles.add(team2);
             msg.delete();
         }
-        else if(content[2] == 'leave'){
+        else if(content[1] == 'leave'){
             if(msg.member.roles.has(team1)){
                 msg.member.roles.remove(team1);
             }
