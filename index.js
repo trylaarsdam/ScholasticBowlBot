@@ -81,7 +81,7 @@ client.on('message', msg => {
             channel.members.forEach((member) => {
                 if(!member.roles.cache.find(r => r.name === 'Mute Exempt')){
                     console.log(member.id);
-                    member.voice.serverMute = true;
+                    member.voice.setMute(true, "Channel muted by moderator");
                 }
             })
         }
@@ -94,7 +94,7 @@ client.on('message', msg => {
             msg.reply("Allowed everyone in the channel to unmute");
             let channel = msg.member.voice.channel;
             channel.members.forEach((member) => {
-                member.voice.serverMute = false;
+                member.voice.setMute(false, "Channel unmuted by moderator");
             })
         }
         else {
