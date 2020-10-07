@@ -90,17 +90,23 @@ var resetEmojiRecieved = "none";
 
 client.on('message', msg => {
     if (msg.content === '!clear') {
-        let sent;
-        msg.channel.send({ embed }).then(sentmsg => {
-            console.log('sending message');
-            sent = sentmsg;
-            sent.react('✅')
-                .then(() => sent.react('❌'))
-                .catch(() => console.log("Failed to react"));
-            lastMessage = msg;
-            sentMessage = sent;
-            reactionsWait();
-        });
+        if(msg.member.hasPermission('MANAGE_MESSAGES')){
+            let sent;
+            msg.channel.send({ embed }).then(sentmsg => {
+                console.log('sending message');
+                sent = sentmsg;
+                sent.react('✅')
+                    .then(() => sent.react('❌'))
+                    .catch(() => console.log("Failed to react"));
+                lastMessage = msg;
+                sentMessage = sent;
+                reactionsWait();
+            });
+        }
+        else{
+            msg.reply('You need `MANAGE_MESSAGES` permissions to run that command');
+            msg.delete();
+        }
     }
     else if (msg.content === '!mutechannel') {
         if (msg.member.hasPermission('MUTE_MEMBERS')) {
@@ -116,6 +122,7 @@ client.on('message', msg => {
         }
         else {
             msg.reply("You need `MUTE_MEMBERS` permissions to run that command");
+            msg.delete();
         }
     }
     else if (msg.content === '!unmutechannel') {
@@ -152,8 +159,17 @@ client.on('message', msg => {
             msg.delete();
         }
         else{
-            var buzzList = {};
-            buzzList = buzzListTemplate;
+            var buzzList = {
+                "title": "Buzz List",
+                "description": "Shows the order in which players used the !buzz command for this question.",
+                "color": 6748568,
+                "timestamp": "2020-10-07T03:10:08.360Z",
+                "footer": {
+                  "text": "Scholastic Bowl Bot"
+                },
+                "fields": [
+                ]
+            };
             var inc = 0;
             buzzOrder.forEach(function() {
                 buzzList.fields.push({
@@ -203,13 +219,13 @@ client.on('message', msg => {
             if(msg.member.roles.cache.find(r => r.name === "Team 1")){
                 msg.member.roles.remove(team1);
             }
-            else if(msg.member.roles.cache.find(r => r.name === "Team 2")){
+            if(msg.member.roles.cache.find(r => r.name === "Team 2")){
                 msg.member.roles.remove(team2);
             }
             msg.delete();
         }
         else{
-            msg.reply("You need to specify either team `1` or `2`");
+            msg.reply("You need to specify either team `1`, `2`, or `leave`");
             msg.delete();
         }
     }
