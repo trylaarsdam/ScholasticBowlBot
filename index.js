@@ -186,11 +186,11 @@ client.on('message', msg => {
         let team2 = msg.guild.roles.fetch(r => r.name === "Team 2");
         content = msg.content.split(" ");
         if(content[1] == '1'){
-            msg.channel.member.roles.add(team1);
+            msg.member.roles.add(team1);
             msg.delete();
         }
         else if(content[2] == '2'){
-            msg.channel.member.roles.add(team2);
+            msg.member.roles.add(team2);
             msg.delete();
         }
         else{
