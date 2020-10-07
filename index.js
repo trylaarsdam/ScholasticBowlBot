@@ -10,6 +10,7 @@ app.listen(PORT, () => {
 
 var setting = 0;
 var buzzOrder = [];
+var channelMuted = false;
 
 const embed = {
     "title": "Are you sure you want to do this?",
@@ -40,10 +41,6 @@ const buzzListTemplate = {
       "text": "Scholastic Bowl Bot"
     },
     "fields": [
-        {
-            "name": "1",
-            "value": "User"
-        }
     ]
 };
 
@@ -91,6 +88,7 @@ client.on('message', msg => {
     }
     else if (msg.content === '!mutechannel') {
         if (msg.member.hasPermission('MUTE_MEMBERS')) {
+            channelMuted = true;
             msg.reply("Muted everyone in channel");
             let channel = msg.member.voice.channel;
             channel.members.forEach((member) => {
@@ -106,6 +104,7 @@ client.on('message', msg => {
     }
     else if (msg.content === '!unmutechannel') {
         if (msg.member.hasPermission('MUTE_MEMBERS')) {
+            channelMuted = false;
             msg.reply("Channel has been unmuted");
             let channel = msg.member.voice.channel;
             channel.members.forEach((member) => {
@@ -131,12 +130,13 @@ client.on('message', msg => {
     else if(msg.content === '!buzzlist'){
         if(!buzzActive){
             msg.reply("Nobody has buzzed yet.");
+            msg.delete();
         }
         else{
-            var buzzList = buzzListTemplate;
-            buzzList.fields[0].value = buzzOrder[0];
+            var buzzList = {};
+            buzzList = buzzListTemplate;
             buzzOrder.forEach(function() {
-                var inc = 1;
+                var inc = 0;
                 buzzList.fields.push({
                     "name": inc.toString(),
                     "value": buzzOrder[inc]
@@ -144,6 +144,7 @@ client.on('message', msg => {
                 inc = inc + 1;
             })
             msg.channel.send({embed: buzzList})
+            msg.delete();
         }
     }
     else if (msg.content === '!reset'){
@@ -249,6 +250,15 @@ function resetReactionsWait() {
                     buzzActive = false;
                     buzzOrder = [];
                     resetEmojiRecieved = "none";
+                    channelMuted = true;
+                    msg.reply("Muted everyone in channel");
+                    let channel = msg.member.voice.channel;
+                    channel.members.forEach((member) => {
+                        if(!member.roles.cache.find(r => r.name === 'Mute Exempt')){
+                            //console.log(member.id);
+                            member.voice.setMute(true, "Channel muted by moderator");
+                        }
+                    })
                 }
                 else if (resetEmojiRecieved == "cancel") {
                     resetLastMessage.delete();
