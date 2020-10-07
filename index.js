@@ -180,6 +180,24 @@ client.on('message', msg => {
             resetReactionsWait();
         });
     }
+    else if (msg.content.startsWith("!team")){
+        var content = [];
+        let team1 = message.guild.roles.find(r => r.name === "Team 1");
+        let team2 = message.guild.roles.find(r => r.name === "Team 2");
+        content = msg.content.split(" ");
+        if(content[1] == '1'){
+            msg.channel.member.roles.add(team1);
+            msg.delete();
+        }
+        else if(content[2] == '2'){
+            msg.channel.member.roles.add(team2);
+            msg.delete();
+        }
+        else{
+            msg.reply("You need to specify either team `1` or `2`");
+            msg.delete();
+        }
+    }
 });
 var emojiRecieved = "none";
 const filter = (reaction, user) => {
