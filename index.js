@@ -129,15 +129,15 @@ client.on('message', msg => {
         }
     }
     else if (msg.content === '!reset'){
-        let sent;
+        let resetsent;
         msg.channel.send({ resetEmbed }).then(sentmsg => {
             console.log('sending message');
-            sent = sentmsg;
-            sent.react('✅')
-                .then(() => sent.react('❌'))
+            resetsent = sentmsg;
+            resetsent.react('✅')
+                .then(() => resetsent.react('❌'))
                 .catch(() => console.log("Failed to react"));
             resetLastMessage = msg;
-            resetSentMessage = sent;
+            resetSentMessage = resetsent;
             resetReactionsWait();
         });
     }
