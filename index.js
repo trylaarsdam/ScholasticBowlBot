@@ -42,6 +42,7 @@ client.on('ready', () => {
 
 let lastMessage;
 let sentMessage;
+let muteChannel;
 
 client.on('message', msg => {
   if (msg.content === '!clear') {
@@ -74,11 +75,20 @@ client.on('message', msg => {
     });
   }
   else if (msg.content === '!mutechannel'){
-      if(msg.member.hasPermission('ADMINISTRATOR')){
-          msg.reply("You have permission");
+      if(msg.member.hasPermission('MUTE_MEMBERS')){
+          msg.reply("Muted everyone in channel");
+          let channel = msg.member.voiceChannel;
+          for (let member of channel.members) {
+              if(!member.roles.find(r => r.name == "Mute Exempt")){
+                  member[1].setMute(true);
+              }
+              else{
+                  msg.reply(member.name + " is exempt!");
+              }
+          }
       }
       else{
-          msg.reply("You need `ADMINISTRATOR` permissions to run that command");
+          msg.reply("You need `MUTE_MEMBERS` permissions to run that command");
       }
   }
 });
