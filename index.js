@@ -8,6 +8,11 @@ app.listen(PORT, () => {
     console.log(`App is running on port ${PORT}`);
 });
 
+app.get('/invite', function (req, res) {
+    res.redirect('https://discord.com/oauth2/authorize?client_id=763147263387500573&scope=bot&permissions=8');
+    return;
+})
+
 var setting = 0;
 var buzzOrder = [];
 var channelMuted = false;
@@ -138,7 +143,7 @@ client.on('message', msg => {
             buzzOrder.forEach(function() {
                 var inc = 0;
                 buzzList.fields.push({
-                    "name": inc.toString(),
+                    "name": (inc+1).toString(),
                     "value": buzzOrder[inc]
                 })
                 inc = inc + 1;
