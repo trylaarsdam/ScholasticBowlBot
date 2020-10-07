@@ -80,6 +80,7 @@ client.on('message', msg => {
             let channel = msg.member.voice.channel;
             channel.members.forEach((member) => {
                 if(!member.roles.cache.find(r => r.name === 'Mute Exempt')){
+                    console.log(member.id);
                     member.voice.serverMute = true;
                 }
             })
