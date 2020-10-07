@@ -268,8 +268,8 @@ function resetReactionsWait() {
                     buzzOrder = [];
                     resetEmojiRecieved = "none";
                     channelMuted = true;
-                    msg.reply("Muted everyone in channel");
-                    let channel = msg.member.voice.channel;
+                    resetLastMessage.reply("Muted everyone in channel");
+                    let channel = resetLastMessage.member.voice.channel;
                     channel.members.forEach((member) => {
                         if(!member.roles.cache.find(r => r.name === 'Mute Exempt')){
                             //console.log(member.id);
