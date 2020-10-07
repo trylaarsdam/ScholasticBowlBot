@@ -130,12 +130,11 @@ function reactionsWait(){
         console.log('got a reaction');
         lastMessage.channel.fetch()
             .then(function(list){
-                lastMessage.channel.bulkDelete(list);
+                lastMessage.channel.bulkDelete(100);
             },
             function(err){
                 lastMessage.channel.send("Error deleting messages. Check my permissions!")
             })
-        collector.stop();
     });
     collector.on('end', collected => {
         console.log(`collected ${collected.size} reactions`);
