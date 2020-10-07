@@ -148,9 +148,12 @@ client.on('message', msg => {
             buzzOrder[unmutedBuzzer].voice.setMute(true, "Next Buzzer");
             unmutedBuzzer++;
             buzzOrder[unmutedBuzzer].voice.setMute(false, "Next Buzzer");
+            msg.channel.send(msg.member.displayName + " has been unmuted.");
+            msg.delete();
         }
         else{
             msg.reply('You need `ADMINISTRATOR` permissions to use this command');
+            msg.delete();
         }
     }
     else if (msg.content === '!buzz'){
