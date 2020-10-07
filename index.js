@@ -85,7 +85,6 @@ let lastMessage;
 let sentMessage;
 let resetLastMessage;
 let resetSentMessage;
-let channelMuted;
 var buzzActive = false;
 var resetEmojiRecieved = "none";
 
