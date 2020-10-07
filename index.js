@@ -121,7 +121,13 @@ function reactionsWait(){
     let collector = sentMessage.createReactionCollector(filter, { time: 15000 });
     collector.on('collect', (reaction, collector) => {
         console.log('got a reaction');
-        clear100(lastMessage, sentMessage);
+        lastMessage.channel.fetch()
+            .then(function(list){
+                lastMessage.channel.bulkDelete(list);
+            },
+            function(err){
+                lastMessage.channel.send("Error deleting messages. Check my permissions!")
+            })
         collector.end();
     });
     collector.on('end', collected => {
