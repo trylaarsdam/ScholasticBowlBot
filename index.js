@@ -152,8 +152,8 @@ client.on('message', msg => {
         else{
             var buzzList = {};
             buzzList = buzzListTemplate;
+            var inc = 0;
             buzzOrder.forEach(function() {
-                var inc = 0;
                 buzzList.fields.push({
                     "name": (inc+1).toString(),
                     "value": buzzOrder[inc]
