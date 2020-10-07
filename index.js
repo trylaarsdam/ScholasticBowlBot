@@ -135,13 +135,13 @@ client.on('message', msg => {
     else if (msg.content === '!buzz'){
         if(!buzzActive){
             buzzActive = true;
-            buzzOrder.push(msg.member.nickname);
-            msg.channel.send(msg.member.nickname + " has buzzed");
+            buzzOrder.push(msg.member.user.username);
+            msg.channel.send(msg.member.user.username + " has buzzed");
             msg.delete();
             msg.member.voice.setMute(false, "Buzzed");
         }
         else{
-            buzzOrder.push(msg.member.name);
+            buzzOrder.push(msg.member.user.username);
         }
     }
     else if(msg.content === '!buzzlist'){
@@ -172,7 +172,7 @@ client.on('message', msg => {
             resetsent = sentmsg;
             resetsent.react('✅')
                 .then(() => resetsent.react('❌'))
-                .catch(() => console.log("Failed to react"));
+                .catch(() => console.log("Failed to react"));                           
             resetLastMessage = msg;
             resetSentMessage = resetsent;
             resetReactionsWait();
