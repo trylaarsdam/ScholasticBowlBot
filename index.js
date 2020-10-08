@@ -100,7 +100,10 @@ var resetEmojiRecieved = "none";
 var unmutedBuzzer = 0;
 
 client.on('message', msg => {
-    if (msg.content === '!clear') {
+    if(msg.channel.type === "dm"){
+        msg.channel.send("CARLTON");
+    }
+    else if (msg.content === '!clear') {
         if(msg.member.hasPermission('MANAGE_MESSAGES') || member.roles.cache.find(r => r.name === 'Bot Master')){
             let sent;
             msg.channel.send({ embed }).then(sentmsg => {
