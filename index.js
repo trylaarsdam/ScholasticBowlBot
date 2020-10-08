@@ -125,6 +125,7 @@ client.on('message', msg => {
                         member.voice.setMute(true, "Channel muted by moderator");
                     }
                 })
+                msg.delete();
             }
             else{
                 msg.reply("You need to be in a voice channel to run this command");
@@ -145,6 +146,7 @@ client.on('message', msg => {
                 channel.members.forEach((member) => {
                     member.voice.setMute(false, "Channel unmuted by moderator");
                 })
+                msg.delete();
             }
             else{
                 msg.reply("You need to be in a voice channel to run this command");
