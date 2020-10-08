@@ -115,15 +115,21 @@ client.on('message', msg => {
     }
     else if (msg.content === '!mutechannel') {
         if (msg.member.hasPermission('MUTE_MEMBERS') || member.roles.cache.find(r => r.name === 'Bot Master')) {
-            channelMuted = true;
-            msg.reply("Muted everyone in channel");
-            let channel = msg.member.voice.channel;
-            channel.members.forEach((member) => {
-                if(!member.roles.cache.find(r => r.name === 'Mute Exempt')){
-                    //console.log(member.id);
-                    member.voice.setMute(true, "Channel muted by moderator");
-                }
-            })
+            if(msg.member.voice.channel){
+                channelMuted = true;
+                msg.reply("Muted everyone in channel");
+                let channel = msg.member.voice.channel;
+                channel.members.forEach((member) => {
+                    if(!member.roles.cache.find(r => r.name === 'Mute Exempt')){
+                        //console.log(member.id);
+                        member.voice.setMute(true, "Channel muted by moderator");
+                    }
+                })
+            }
+            else{
+                msg.reply("You need to be in a voice channel to run this command");
+                msg.delete();
+            }
         }
         else {
             msg.reply("You need `MUTE_MEMBERS` permissions to run that command");
@@ -132,12 +138,18 @@ client.on('message', msg => {
     }
     else if (msg.content === '!unmutechannel') {
         if (msg.member.hasPermission('MUTE_MEMBERS') || member.roles.cache.find(r => r.name === 'Bot Master')) {
-            channelMuted = false;
-            msg.reply("Channel has been unmuted");
-            let channel = msg.member.voice.channel;
-            channel.members.forEach((member) => {
-                member.voice.setMute(false, "Channel unmuted by moderator");
-            })
+            if(msg.member.voice.channel){
+                channelMuted = false;
+                msg.reply("Channel has been unmuted");
+                let channel = msg.member.voice.channel;
+                channel.members.forEach((member) => {
+                    member.voice.setMute(false, "Channel unmuted by moderator");
+                })
+            }
+            else{
+                msg.reply("You need to be in a voice channel to run this command");
+                msg.delete();
+            }
         }
         else {
             msg.reply("You need `MUTE_MEMBERS` permissions to run that command");
