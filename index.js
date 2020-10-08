@@ -86,9 +86,7 @@ client.on('ready', () => {
     client.user.setPresence({
         status: 'online',
         activity: {
-            name: 'virtual scholastic bowl',
-            type: 'STREAMING',
-            url: 'http://scholastic.toddr.org'
+            name: 'virtual scholastic bowl'
         }
     });
 });
