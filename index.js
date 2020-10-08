@@ -83,7 +83,7 @@ function clear(original, sent) {
 
 client.on('ready', () => {
     console.log(`Logged in as ${client.user.tag}!`);
-    bot.user.setPresence({
+    client.user.setPresence({
         status: 'online',
         activity: {
             name: 'virtual scholastic bowl',
