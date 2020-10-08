@@ -83,7 +83,13 @@ function clear(original, sent) {
 
 client.on('ready', () => {
     console.log(`Logged in as ${client.user.tag}!`);
-    client.user.setGame('Virtual Scholastic Bowl');
+    client.user.setPresence({
+        game: {
+            name: 'virtual scholastic bowl',
+            type: "STREAMING",
+            url: "http://scholastic.toddr.org"
+        }
+    });
 });
 
 let lastMessage;
