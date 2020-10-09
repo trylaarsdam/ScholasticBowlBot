@@ -101,7 +101,7 @@ var unmutedBuzzer = 0;
 
 client.on('message', msg => {
     if (msg.content === '!clear') {
-        if(msg.member.hasPermission('MANAGE_MESSAGES') || member.roles.cache.find(r => r.name === 'Bot Master')){
+        if(msg.member.hasPermission('MANAGE_MESSAGES') || msg.member.roles.cache.find(r => r.name === 'Bot Master')){
             let sent;
             msg.channel.send({ embed }).then(sentmsg => {
                 console.log('sending message');
@@ -120,7 +120,7 @@ client.on('message', msg => {
         }
     }
     else if (msg.content === '!mutechannel') {
-        if (msg.member.hasPermission('MUTE_MEMBERS') || member.roles.cache.find(r => r.name === 'Bot Master')) {
+        if (msg.member.hasPermission('MUTE_MEMBERS') || msg.member.roles.cache.find(r => r.name === 'Bot Master')) {
             if(msg.member.voice.channel){
                 channelMuted = true;
                 msg.reply("Muted everyone in channel");
@@ -144,7 +144,7 @@ client.on('message', msg => {
         }
     }
     else if (msg.content === '!unmutechannel') {
-        if (msg.member.hasPermission('MUTE_MEMBERS') || member.roles.cache.find(r => r.name === 'Bot Master')) {
+        if (msg.member.hasPermission('MUTE_MEMBERS') || msg.member.roles.cache.find(r => r.name === 'Bot Master')) {
             if(msg.member.voice.channel){
                 channelMuted = false;
                 msg.reply("Channel has been unmuted");
@@ -164,7 +164,7 @@ client.on('message', msg => {
         }
     }
     else if (msg.content === '!next'){
-        if(msg.member.hasPermission('ADMINISTRATOR') || member.roles.cache.find(r => r.name === 'Bot Master')){
+        if(msg.member.hasPermission('ADMINISTRATOR') ||msg.member.roles.cache.find(r => r.name === 'Bot Master')){
             if(buzzOrder[unmutedBuzzer] && buzzOrder[unmutedBuzzer + 1]){
                 buzzOrder[unmutedBuzzer].voice.setMute(true, "Next Buzzer");
                 unmutedBuzzer++;
@@ -242,7 +242,7 @@ client.on('message', msg => {
         }
     }
     else if (msg.content === '!reset'){
-        if(msg.member.hasPermission('ADMINISTRATOR') || member.roles.cache.find(r => r.name === 'Bot Master')){
+        if(msg.member.hasPermission('ADMINISTRATOR') || msg.member.roles.cache.find(r => r.name === 'Bot Master')){
             let resetsent;
             msg.channel.send({ embed }).then(sentmsg => {
                 console.log('sending message');
