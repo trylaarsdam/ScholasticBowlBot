@@ -262,7 +262,7 @@ client.on('message', msg => {
         }
     }
     else if (msg.content === '!help'){
-        msg.reply("Help/commands can be found at http://scholastic.toddr.org/docs")
+        msg.reply("Help/commands can be found at https://scholastic.toddr.org/docs")
     }
     else if (msg.content.startsWith("!team")){
         var content = [];
