@@ -15,6 +15,8 @@ var randImage = "https://unsplash.it/1200/800/?image=" + Math.floor(100 + Math.r
 // Apply random styles
 row.style.color = randomColor({luminosity: 'light'});
 row.style.backgroundColor = randomColor({luminosity: 'dark'});
+row.style.backgroundImage = "url(" + randImage + ")";
+
 
 heading.setAttribute("class", randHeading);
 strapline.setAttribute("class", randStrapline);
