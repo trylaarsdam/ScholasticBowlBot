@@ -100,6 +100,8 @@ var buzzActive = false;
 var resetEmojiRecieved = "none";
 var unmutedBuzzer = 0;
 var suspendedTeam = 0;
+const team1 = "Team 1";
+const team2 = "Team 2";
 
 client.on('message', msg => {
     if (msg.content === '!clear') {
@@ -187,12 +189,18 @@ client.on('message', msg => {
     else if (msg.content === '!buzz'){
         if(msg.member.roles.cache.find(r => r.name === "Team 2") || msg.member.roles.cache.find(r => r.name === "Team 1")){
             if(!buzzActive && !buzzOrder.includes(msg.member)){
-                unmutedBuzzer = 0;
-                buzzActive = true;
-                buzzOrder.push(msg.member);
-                msg.channel.send(msg.member.displayName + " has buzzed");
-                msg.delete();
-                msg.member.voice.setMute(false, "Buzzed");
+                if(((msg.member.roles.cache.find(r=> r.name === "Team 1") == team1) && suspendedTeam == 1) || ((msg.member.roles.cache.find(r=> r.name === "Team 2") == team1) && suspendedTeam == 2)){
+                    msg.reply("Your team has already buzzed");
+                    msg.delete();
+                }
+                else{
+                    unmutedBuzzer = 0;
+                    buzzActive = true;
+                    buzzOrder.push(msg.member);
+                    msg.channel.send(msg.member.displayName + " has buzzed");
+                    msg.delete();
+                    msg.member.voice.setMute(false, "Buzzed");
+                }
             }
             else if(buzzOrder.includes(msg.member)){
                 msg.reply("You have already buzzed this round");
@@ -420,6 +428,7 @@ function resetReactionsWait() {
                     buzzOrder = [];
                     resetEmojiRecieved = "none";
                     channelMuted = true;
+                    suspendedTeam = 0;
                     resetLastMessage.reply("Reset buzzes + muted the channel");
                     channel.members.forEach((member) => {
                         if(!member.roles.cache.find(r => r.name === 'Mute Exempt')){
