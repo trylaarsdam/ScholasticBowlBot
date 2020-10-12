@@ -8,6 +8,7 @@ app.listen(PORT, () => {
     console.log(`App is running on port ${PORT}`);
 });
 
+app.use(express.static('public'));
 
 app.get('/invite', function (req, res) {
     res.redirect('https://discord.com/oauth2/authorize?client_id=763147263387500573&scope=bot&permissions=8');
@@ -27,7 +28,7 @@ app.get('/web/js', function(req, res) {
 })
 
 app.get('/docs', function(req, res) {
-    res.redirect('https://github.com/trylaarsdam/ScholasticBowlBot/wiki');
+    res.sendFile(__dirname + "/web/docs/index.html", { root: __dirname + "/web/docs" });
 })
 
 var setting = 0;
