@@ -413,6 +413,7 @@ function resetReactionsWait() {
         resetLastMessage.channel.fetch()
             .then(function (list) {
                 if (resetEmojiRecieved == "check") {
+                    let channel = resetLastMessage.member.voice.channel;
                     resetLastMessage.delete();
                     resetSentMessage.delete();
                     buzzActive = false;
@@ -420,7 +421,6 @@ function resetReactionsWait() {
                     resetEmojiRecieved = "none";
                     channelMuted = true;
                     resetLastMessage.reply("Reset buzzes + muted the channel");
-                    let channel = resetLastMessage.member.voice.channel;
                     channel.members.forEach((member) => {
                         if(!member.roles.cache.find(r => r.name === 'Mute Exempt')){
                             //console.log(member.id);
