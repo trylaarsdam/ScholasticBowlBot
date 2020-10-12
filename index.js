@@ -259,12 +259,16 @@ client.on('message', msg => {
                     suspendedTeam = 1;
                     msg.channel.send("Team 1 can no longer buzz.");
                     buzzOrder[unmutedBuzzer].voice.setMute(true, "Got it wrong");
+                    buzzOrder = [];
+                    buzzActive = false;
                 }
                 else if(buzzOrder[unmutedBuzzer].roles.cache.find(r => r.name === 'Team 2')){
                     console.log("Team 2 buzzed wrong");
                     suspendedTeam = 2;
                     msg.channel.send("Team 2 can no longer buzz.");
                     buzzOrder[unmutedBuzzer].voice.setMute(true, "Got it wrong");
+                    buzzOrder = [];
+                    buzzActive = false;
                 }
                 else{
                     msg.channel.send("Error - `currently selected player has no team assignment`. Please !reset");
