@@ -28,7 +28,7 @@ app.get('/web/js', function(req, res) {
 })
 
 app.get('/docs', function(req, res) {
-    res.sendFile(__dirname + "/web/docs/index.html", { root: __dirname + "/web/docs" });
+    res.sendFile("index.html", { root: __dirname + "/web/docs" });
 })
 
 var setting = 0;
