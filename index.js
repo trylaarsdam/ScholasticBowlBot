@@ -240,17 +240,17 @@ client.on('message', msg => {
             };
             var inc = 0;
             var teamString = "";
-            if(msg.member.roles.cache.find(r => r.name === 'Team 1') && !msg.member.roles.cache.find(r => r.name === 'Team 2')){
-                teamString = "Team 1";
-            }
-            else if(msg.member.roles.cache.find(r => r.name === 'Team 2') && !msg.member.roles.cache.find(r => r.name === 'Team 1')){
-                teamString = "Team 2";
-            }
-            else{
-                teamString = "Both?";
-            }
 
             buzzOrder.forEach(function() {
+                if(buzzOrder[inc].roles.cache.find(r => r.name === 'Team 1') && !buzzOrder[inc].roles.cache.find(r => r.name === 'Team 2')){
+                    teamString = "Team 1";
+                }
+                else if(buzzOrder[inc].roles.cache.find(r => r.name === 'Team 2') && !buzzOrder[inc].roles.cache.find(r => r.name === 'Team 1')){
+                    teamString = "Team 2";
+                }
+                else{
+                    teamString = "Both?";
+                }
                 buzzList.fields.push({
                     "name": (inc+1).toString(),
                     "value": buzzOrder[inc].displayName + " - " + teamString 
