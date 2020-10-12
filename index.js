@@ -239,10 +239,21 @@ client.on('message', msg => {
                 ]
             };
             var inc = 0;
+            var teamString = "";
+            if(msg.member.roles.cache.find(r => r.name === 'Team 1') && !msg.member.roles.cache.find(r => r.name === 'Team 2')){
+                teamString = "Team 1";
+            }
+            else if(msg.member.roles.cache.find(r => r.name === 'Team 1') && !msg.member.roles.cache.find(r => r.name === 'Team 2')){
+                teamString = "Team 2";
+            }
+            else{
+                teamString = "Both?";
+            }
+
             buzzOrder.forEach(function() {
                 buzzList.fields.push({
                     "name": (inc+1).toString(),
-                    "value": buzzOrder[inc].displayName
+                    "value": buzzOrder[inc].displayName + " - " + teamString 
                 })
                 inc = inc + 1;
             })
