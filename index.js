@@ -99,6 +99,7 @@ let resetSentMessage;
 var buzzActive = false;
 var resetEmojiRecieved = "none";
 var unmutedBuzzer = 0;
+var suspendedTeam = 0;
 
 client.on('message', msg => {
     if (msg.content === '!clear') {
@@ -242,6 +243,36 @@ client.on('message', msg => {
             buzzlist = {};
         }
     }
+    else if (msg.content === '!incorrect'){
+        if(msg.member.hasPermission('ADMINISTRATOR') || msg.member.roles.cache.find(r => r.name === 'Bot Master')){
+            if(!buzzActive){
+                if(buzzOrder[unmutedBuzzer].roles.cache.find(r => r.name === 'Team 1')){
+                    console.log("Team 1 buzzed wrong");
+                    suspendedTeam = 1;
+                    msg.channel.send("Team 1 can no longer buzz.");
+                    buzzOrder[unmutedBuzzer].voice.setMute(true, "Got it wrong");
+                }
+                else if(buzzOrder[unmutedBuzzer].roles.cache.find(r => r.name === 'Team 2')){
+                    console.log("Team 2 buzzed wrong");
+                    suspendedTeam = 2;
+                    msg.channel.send("Team 2 can no longer buzz.");
+                    buzzOrder[unmutedBuzzer].voice.setMute(true, "Got it wrong");
+                }
+                else{
+                    msg.channel.send("Error - `currently selected player has no team assignment`. Please !reset");
+                    msg.delete();
+                }
+            }
+            else{
+                msg.reply("Someone needs to buzz before they can be marked incorrect");
+                msg.delete();
+            }
+        }
+        else{
+            msg.reply("You need `ADMINISTRATOR` permissions to run this command");
+            msg.delete();
+        }
+    }
     else if (msg.content === '!reset'){
         if(msg.member.hasPermission('ADMINISTRATOR') || msg.member.roles.cache.find(r => r.name === 'Bot Master')){
             let resetsent;
@@ -285,7 +316,7 @@ client.on('message', msg => {
         }
         else if(content[1] == 'leave'){
             if(msg.member.roles.cache.find(r => r.name === "Team 1")){
-                msg.member.roles.remove(team1);
+                msg.member.roles.remove(team1);  
             }
             if(msg.member.roles.cache.find(r => r.name === "Team 2")){
                 msg.member.roles.remove(team2);
