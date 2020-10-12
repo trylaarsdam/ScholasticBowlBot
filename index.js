@@ -189,7 +189,7 @@ client.on('message', msg => {
     else if (msg.content === '!buzz'){
         if(msg.member.roles.cache.find(r => r.name === "Team 2") || msg.member.roles.cache.find(r => r.name === "Team 1")){
             if(!buzzActive && !buzzOrder.includes(msg.member)){
-                if(((msg.member.roles.cache.find(r=> r.name === "Team 1") == team1) && suspendedTeam == 1) || ((msg.member.roles.cache.find(r=> r.name === "Team 2") == team1) && suspendedTeam == 2)){
+                if(((msg.member.roles.cache.find(r=> r.name === "Team 1")) && suspendedTeam == 1) || ((msg.member.roles.cache.find(r=> r.name === "Team 2")) && suspendedTeam == 2)){
                     msg.reply("Your team has already buzzed");
                     msg.delete();
                 }
