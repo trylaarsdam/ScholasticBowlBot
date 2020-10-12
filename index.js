@@ -245,7 +245,7 @@ client.on('message', msg => {
     }
     else if (msg.content === '!incorrect'){
         if(msg.member.hasPermission('ADMINISTRATOR') || msg.member.roles.cache.find(r => r.name === 'Bot Master')){
-            if(!buzzActive && buzzOrder[unmutedBuzzer]){
+            if(buzzOrder[unmutedBuzzer]){
                 if(buzzOrder[unmutedBuzzer].roles.cache.find(r => r.name === 'Team 1')){
                     console.log("Team 1 buzzed wrong");
                     suspendedTeam = 1;
