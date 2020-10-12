@@ -8,8 +8,6 @@ app.listen(PORT, () => {
     console.log(`App is running on port ${PORT}`);
 });
 
-app.use(express.static('public'));
-
 app.get('/invite', function (req, res) {
     res.redirect('https://discord.com/oauth2/authorize?client_id=763147263387500573&scope=bot&permissions=8');
     return;
