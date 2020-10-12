@@ -243,7 +243,7 @@ client.on('message', msg => {
             if(msg.member.roles.cache.find(r => r.name === 'Team 1') && !msg.member.roles.cache.find(r => r.name === 'Team 2')){
                 teamString = "Team 1";
             }
-            else if(msg.member.roles.cache.find(r => r.name === 'Team 1') && !msg.member.roles.cache.find(r => r.name === 'Team 2')){
+            else if(msg.member.roles.cache.find(r => r.name === 'Team 2') && !msg.member.roles.cache.find(r => r.name === 'Team 1')){
                 teamString = "Team 2";
             }
             else{
