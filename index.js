@@ -43,34 +43,6 @@ const embed = {
     }
 };
 
-const infoMessage = {
-    "content": "Welcome to the TCHS scholastic bowl discord server. Here are a few things you should know:",
-    "embeds": [
-        {
-            "title": "Using the Bot",
-            "description": "*It is very important for you to stay unmuted while in a game. Otherwise when the bot unmutes you you will still be muted.*\n\n**__Commands for players__**\n**!buzz** - Acts like your buzzer that you would have in person. It is recommended you pre-type `!buzz`, so you only have to hit enter when you want to buzz.\n\n**!team** *[1,2,leave]* - This will add you to either team 1, team 2, or remove you from a team. Being on a team lets you buzz and access private team channels for deliberation.\n\n**__Commands for moderators__**\n**!buzzlist** - shows who buzzed in what order, and what team they were on. This list will be accurate even if the messages sent by the bot acknowledging buzzes are not.\n\n**!incorrect** - Marks the currently \"buzzing\" player as incorrect, and resets the buzz list. The other team can then buzz, but the team the player who just buzzed was on cannot. \n\n**!reset** - Resets the buzzlist, remutes everyone who was unmuted (except those immune), and allows everyone to buzz again. (Should be used for going to a new question).\n\n**!mutechannel** - Mutes everyone in the channel you are currently in. Anyone with the `Mute Exempt` role will not be muted.\n\n**!unmutechannel** - Unmutes everyone in the channel you are currently in. *Do this at the end of games, otherwise everyone will stay muted when they rejoin VCs at a later date*.\n\n**!next** - Will mute the person who was speaking that buzzed, and unmutes the person next on the buzzlist. ",
-            "url": "https://scholastic.toddr.org/docs",
-            "color": 12789
-        },
-        {
-            "title": "Roles",
-            "description": "**Coach** - Coaches have permissions to run moderator commands (aka run a game)\n\n**Team 1** - Members of team 1\n\n**Team 2** - Members of team 2\n\n**Mute Exempt** - This user will not be muted when `!mutechannel` is run. This should be given to any user reading questions/running the game.\n\n**Bot Master** - Can run any command in the bot.",
-            "color": 7506394
-        },
-        {
-            "title": "Other info",
-            "description": "Extra documentation and commands not listed in this message can be found here - https://scholastic.toddr.org/docs\nTo invite the bot to another server - https://scholastic.toddr.org/invite",
-            "url": "https://scholastic.toddr.org",
-            "color": 16770790,
-            "footer": {
-                "text": "Scholastic Bowl Bot",
-                "icon_url": "https://toddr.org/assets/images/t-transparent-114x108.png"
-            }
-        }
-    ],
-    "username": "Info",
-    "avatar_url": "https://toddr.org/assets/images/t-transparent-114x108.png"
-}
 
 const resetEmbed = {
     "title": "Are you sure you want to reset the queue?",
@@ -177,7 +149,34 @@ client.on('message', msg => {
     }
     else if(msg.content === '!sendinfomessage'){
         if(msg.member.hasPermission('ADMINISTRATOR')){
-            msg.channel.send({ infoMessage });
+            msg.channel.send({
+                "content": "Welcome to the TCHS scholastic bowl discord server. Here are a few things you should know:",
+                "embeds": [
+                    {
+                        "title": "Using the Bot",
+                        "description": "*It is very important for you to stay unmuted while in a game. Otherwise when the bot unmutes you you will still be muted.*\n\n**__Commands for players__**\n**!buzz** - Acts like your buzzer that you would have in person. It is recommended you pre-type `!buzz`, so you only have to hit enter when you want to buzz.\n\n**!team** *[1,2,leave]* - This will add you to either team 1, team 2, or remove you from a team. Being on a team lets you buzz and access private team channels for deliberation.\n\n**__Commands for moderators__**\n**!buzzlist** - shows who buzzed in what order, and what team they were on. This list will be accurate even if the messages sent by the bot acknowledging buzzes are not.\n\n**!incorrect** - Marks the currently \"buzzing\" player as incorrect, and resets the buzz list. The other team can then buzz, but the team the player who just buzzed was on cannot. \n\n**!reset** - Resets the buzzlist, remutes everyone who was unmuted (except those immune), and allows everyone to buzz again. (Should be used for going to a new question).\n\n**!mutechannel** - Mutes everyone in the channel you are currently in. Anyone with the `Mute Exempt` role will not be muted.\n\n**!unmutechannel** - Unmutes everyone in the channel you are currently in. *Do this at the end of games, otherwise everyone will stay muted when they rejoin VCs at a later date*.\n\n**!next** - Will mute the person who was speaking that buzzed, and unmutes the person next on the buzzlist. ",
+                        "url": "https://scholastic.toddr.org/docs",
+                        "color": 12789
+                    },
+                    {
+                        "title": "Roles",
+                        "description": "**Coach** - Coaches have permissions to run moderator commands (aka run a game)\n\n**Team 1** - Members of team 1\n\n**Team 2** - Members of team 2\n\n**Mute Exempt** - This user will not be muted when `!mutechannel` is run. This should be given to any user reading questions/running the game.\n\n**Bot Master** - Can run any command in the bot.",
+                        "color": 7506394
+                    },
+                    {
+                        "title": "Other info",
+                        "description": "Extra documentation and commands not listed in this message can be found here - https://scholastic.toddr.org/docs\nTo invite the bot to another server - https://scholastic.toddr.org/invite",
+                        "url": "https://scholastic.toddr.org",
+                        "color": 16770790,
+                        "footer": {
+                            "text": "Scholastic Bowl Bot",
+                            "icon_url": "https://toddr.org/assets/images/t-transparent-114x108.png"
+                        }
+                    }
+                ],
+                "username": "Info",
+                "avatar_url": "https://toddr.org/assets/images/t-transparent-114x108.png"
+            });
             msg.delete();
         }
         else{
