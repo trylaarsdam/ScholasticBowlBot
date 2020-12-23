@@ -3,6 +3,7 @@ const client = new Discord.Client();
 require('dotenv').config()
 const express = require('express');
 const app = express();
+const path = require('path');
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
     console.log(`App is running on port ${PORT}`);
@@ -14,20 +15,18 @@ app.get('/invite', function (req, res) {
 })
 
 app.get('/', function (req, res) {
-    res.sendFile(__dirname + "/web/index.html");
+    res.redirect('index.html');
 })
 
-app.get('/web/css', function (req, res) {
-    res.sendFile(__dirname + "/web/style.css")
-})
-
-app.get('/web/js', function (req, res) {
-    res.sendFile(__dirname + "/web/script.js")
+app.get('/setup', function(req, res) {
+    res.redirect('setup.html');
 })
 
 app.get('/docs', function (req, res) {
-    res.sendFile("index.html", { root: __dirname + "/web/docs" });
+    res.redirect('documentation.html');
 })
+
+app.use(express.static(path.join(__dirname, 'web/docs')));
 
 var setting = 0;
 var buzzOrder = [];
