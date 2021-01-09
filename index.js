@@ -86,7 +86,7 @@ client.on('ready', () => {
     client.user.setPresence({
         status: 'online',
         activity: {
-            name: 'virtual scholastic bowl'
+            name: 'edpuzzle physics lectures'
         }
     });
 });
