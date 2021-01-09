@@ -86,7 +86,7 @@ client.on('ready', () => {
     client.user.setPresence({
         status: 'online',
         activity: {
-            name: 'edpuzzle physics lectures'
+            name: 'physics edpuzzles'
         }
     });
 });
